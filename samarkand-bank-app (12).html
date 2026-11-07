@@ -1,0 +1,2717 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1B2447">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Samarkand_bank">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F0A63A'/%3E%3Ctext x='32' y='43' font-size='34' font-family='Arial' font-weight='700' text-anchor='middle' fill='%232E1D03'%3ES%3C/text%3E%3C/svg%3E">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+[hidden]{display:none!important}
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+</style>
+<title>Samarkand_bank</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: мобильное приложение в одну колонку, карта сверху, вкладки снизу. */
+:root{
+  --bg:#EDF0F5; --surface:#FFFFFF; --ink:#141A33; --muted:#5E6682; --line:#D9DEEA;
+  --navy:#1B2447; --navy2:#34459A; --card-ink:#F4F6FF; --card-muted:#AEB6DA;
+  --accent:#F0A63A; --accent-ink:#2E1D03; --in:#12805C; --out:#B4332E; --focus:#34459A;
+  --f-display:"Unbounded","Onest",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1226; --surface:#171E3A; --ink:#EAEDF8; --muted:#98A0BF; --line:#2A3358;
+    --navy:#232E5E; --navy2:#3C4FB0; --accent:#F5B04A; --in:#4FD1A0; --out:#FF8A80; --focus:#8EA0FF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1226; --surface:#171E3A; --ink:#EAEDF8; --muted:#98A0BF; --line:#2A3358;
+  --navy:#232E5E; --navy2:#3C4FB0; --accent:#F5B04A; --in:#4FD1A0; --out:#FF8A80; --focus:#8EA0FF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:15px; line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:16px 104px;
+}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.app{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:20px;min-width:0}
+h1,h2,h3,p{margin:0}
+h2{font-family:var(--f-display);font-weight:500;font-size:18px;text-wrap:balance}
+h3{font-size:14px;font-weight:600}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:14px;letter-spacing:.01em;min-width:0}
+.coin{width:28px;height:28px;flex:none;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-family:var(--f-display);font-weight:700;font-size:13px;box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--accent-ink) 22%,transparent)}
+.me{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px 4px 4px;min-width:0}
+.me span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px}
+.av{flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600}
+
+.card{position:relative;overflow:hidden;border-radius:22px;padding:20px;color:var(--card-ink);
+  background:linear-gradient(145deg,var(--navy) 0%,var(--navy2) 120%);display:flex;flex-direction:column;gap:22px;min-height:196px}
+.card::before,.card::after{content:"";position:absolute;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--card-ink) 16%,transparent);pointer-events:none}
+.card::before{width:230px;height:230px;right:-70px;top:-90px}
+.card::after{width:150px;height:150px;right:-20px;top:-40px}
+.card .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--card-muted)}
+.bal{font-family:var(--f-display);font-weight:700;font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.bal small{font-size:14px;font-weight:500;color:var(--card-muted);margin-left:6px}
+.card-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:auto}
+.num{font-family:var(--f-mono);font-size:14px;letter-spacing:.12em;background:none;border:0;color:var(--card-ink);padding:0;text-align:left}
+.holder{font-size:13px;color:var(--card-muted)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sbrand{font-family:var(--f-display);font-size:11px;letter-spacing:.14em;color:var(--card-muted)}
+.net{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:.06em;font-style:italic}
+.net.mcard{font-style:normal;letter-spacing:0;font-size:15px}
+.cardrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);min-width:0}
+.cardrow:first-child{border-top:0}
+.cardrow .sub{font-size:13px;color:var(--muted)}
+.cardrow > div{min-width:0}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface);border:1px solid var(--line)}
+.btn.danger{background:var(--out);color:#fff}
+.btn.sm{min-height:36px;padding:6px 14px;border-radius:10px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.block{width:100%}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.row-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.link{background:none;border:0;color:var(--focus);padding:0;font-weight:600}
+.list{display:flex;flex-direction:column;min-width:0}
+.tx{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);min-width:0}
+.tx:first-child{border-top:0}
+.tx .who{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx .sub{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx > div{min-width:0}
+.amt{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.amt.in{color:var(--in)}.amt.out{color:var(--out)}
+.empty{padding:18px 4px;text-align:center;color:var(--muted)}
+.mg{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.mc{aspect-ratio:1;border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:0;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;min-width:0}
+.mc:disabled{cursor:default}
+.mc.ok{background:var(--in);border-color:var(--in);color:#06281D}
+.mc.bomb{background:var(--out);border-color:var(--out);color:#3A0B07}
+.mc.dim{opacity:.55}
+.mc.peek{font-size:11px;background:rgba(229,72,77,.18);border-color:var(--out)}
+.mc.live:active{transform:scale(.92)}
+
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.inp{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:16px;color:var(--ink)}
+.inp::placeholder{color:var(--muted);opacity:.7}
+.amount{font-family:var(--f-display);font-weight:700;font-size:28px;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:500}
+.chips.sm{gap:6px}
+.chips.sm .chip{padding:3px 9px;font-size:12px;line-height:1.3}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.friends{display:flex;flex-direction:column;max-height:240px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.friend{display:flex;align-items:center;gap:12px;padding:10px 12px;background:none;border:0;border-top:1px solid var(--line);text-align:left;width:100%}
+.friend:first-child{border-top:0}
+.friend[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 22%,var(--surface))}
+.err{color:var(--out);font-size:13px;min-height:1em}
+.hint{font-size:13px;color:var(--muted)}
+.cur{color:var(--accent);margin-right:6px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+.seg button{border:0;background:none;border-radius:9px;padding:8px 2px;font-size:13px;font-weight:500;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+
+.banner{border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--out) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--out) 45%,var(--line))}
+.banner b{color:var(--out)}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.ok{color:var(--in);border-color:color-mix(in srgb,var(--in) 50%,var(--line))}
+.pill.bad{color:var(--out);border-color:color-mix(in srgb,var(--out) 50%,var(--line))}
+.bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--in)}
+.inst{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.inst:first-of-type{border-top:0}
+.inst .t{font-weight:600}.inst .s{font-size:13px;color:var(--muted)}
+
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);
+  padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px));padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+.tabs div{max-width:460px;margin:0 auto;display:flex}
+.tab{flex:1;min-width:0;background:none;border:0;padding:10px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted);font-weight:500}
+.tab{position:relative}
+.tab svg{width:22px;height:22px}
+.tab .lbl2{font-size:10.5px;line-height:1.1;text-align:center}
+.badge{position:absolute;top:4px;left:calc(50% + 6px);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--out);color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}
+.udot{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--out);color:#fff;font-size:11px;font-weight:700;line-height:20px;text-align:center}
+.tab[aria-current="page"]{color:var(--ink)}
+.tab[aria-current="page"] svg{color:var(--accent)}
+
+.scrim{position:fixed;inset:0;background:color-mix(in srgb,#000 55%,transparent);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{width:100%;max-width:460px;background:var(--surface);border-radius:22px 22px 0 0;padding:22px max(20px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.reel{width:76px;height:88px;border:1px solid var(--line);border-radius:14px;background:var(--bg);display:grid;place-items:center;font-size:42px}
+.sp-list{display:flex;flex-direction:column;gap:8px;max-height:52vh;overflow:auto;padding:4px 0}
+.bub{max-width:82%;padding:9px 12px;border-radius:16px 16px 16px 4px;background:var(--surface);border:1px solid var(--line);align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub.me{align-self:flex-end;border-radius:16px 16px 4px 16px;background:var(--navy2);border-color:var(--navy2);color:#fff}
+.bub .sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:normal}
+.bub.me .sub{color:rgba(255,255,255,.75)}
+.vf{flex:none;display:inline-block;width:15px;height:15px;vertical-align:-2px;margin-left:4px}
+.tx[data-tx]{cursor:pointer}
+.kv{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid var(--line)}
+.kv span:first-child{color:var(--muted)}
+.kv span:last-child{text-align:right;overflow-wrap:anywhere}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;z-index:30;max-width:min(420px,calc(100vw - 32px));text-align:center}
+.done{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding-top:8px}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--in);color:#fff;display:grid;place-items:center;margin-bottom:6px}
+.big{font-family:var(--f-display);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums}
+.center{min-height:50vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.auth-card{border-radius:18px;padding:16px 18px;color:var(--card-ink);background:linear-gradient(120deg,var(--navy2) -20%,var(--navy) 90%);display:flex;justify-content:space-between;align-items:center;gap:12px;transform:rotate(-1.5deg);box-shadow:0 8px 24px color-mix(in srgb,var(--navy) 35%,transparent)}
+.auth-card .mono{letter-spacing:.14em;font-size:13px;color:var(--card-muted)}
+.qr-out{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.qr-canvas{display:block;max-width:100%;height:auto;aspect-ratio:1;background:#fff;border-radius:14px;border:1px solid var(--line);image-rendering:pixelated}
+.qr-text{overflow-wrap:anywhere;max-width:100%}
+.panel-in{display:flex;flex-direction:column;gap:12px}
+@media (prefers-reduced-motion:no-preference){
+  .tick{animation:pop .35s ease-out}
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <section id="v-boot" class="center">
+    <div class="coin" style="width:44px;height:44px;font-size:20px">S</div>
+    <p id="boot-msg" class="muted">Открываем хранилище…</p>
+    <button class="link cfg-open" type="button">Настройки</button>
+  </section>
+
+  <section id="v-locked" class="center" hidden>
+    <h2>Нет связи с хранилищем</h2>
+    <p class="muted">Не удалось открыть хранилище на этом устройстве. Проверьте, что браузер разрешает сохранять данные.</p>
+    <button class="link cfg-open" type="button">Настройки</button>
+  </section>
+
+  <section id="v-banned" class="center" hidden>
+    <h2>Аккаунт удалён</h2>
+    <p class="muted">Администратор удалил этот аккаунт из-за просроченного платежа по кредиту. Открыть новый счёт с этого профиля нельзя.</p>
+  </section>
+
+  <section id="v-auth" hidden>
+    <div class="app" style="gap:18px">
+      <div class="brand"><span class="coin">S</span>Samarkand_bank</div>
+      <div class="auth-card" aria-hidden="true"><span class="sbrand">SAMARKAND</span><span class="mono">•••• •••• •••• ••••</span></div>
+      <div class="seg two" id="auth-tabs" role="group" aria-label="Вход или регистрация">
+        <button type="button" data-auth="login" aria-pressed="true">Вход</button>
+        <button type="button" data-auth="register" aria-pressed="false">Регистрация</button>
+      </div>
+      <form id="f-login" class="panel" autocomplete="off">
+        <div class="f"><span id="l-l" style="font-size:13px;color:var(--muted)">Аккаунт на этом профиле</span>
+          <div class="chips" id="l-accs" role="group" aria-labelledby="l-l"></div>
+        </div>
+        <label class="f" for="l-pass" id="l-pass-w">Пароль
+          <input id="l-pass" class="inp" type="password" autocomplete="off">
+        </label>
+        <p id="l-err" class="err" role="alert"></p>
+        <button id="l-go" class="btn primary block" type="submit">Войти</button>
+      </form>
+      <p class="muted" id="reg-intro">Придумайте ник и пароль. На старте на счёт придёт 1 000 $, а друзья смогут переводить вам деньги по номеру карты.</p>
+      <form id="f-onboard" class="panel" autocomplete="off">
+        <label class="f" for="nick">Ник
+          <input id="nick" class="inp" maxlength="16" placeholder="например, tiger_77" autocapitalize="none" spellcheck="false">
+        </label>
+        <p class="hint">3–16 символов: латинские буквы, цифры и «_».</p>
+        <label class="f" for="reg-pass">Пароль
+          <input id="reg-pass" class="inp" type="password" autocomplete="off" placeholder="минимум 4 символа">
+        </label>
+        <div class="f"><span id="o-net-l" style="font-size:13px;color:var(--muted)">Платёжная система карты</span>
+          <div class="chips" id="o-nets" role="group" aria-labelledby="o-net-l"></div>
+        </div>
+        <p class="hint">Номер карты выдаётся случайно. Позже изменить его сможет только администратор.</p>
+        <p id="nick-err" class="err" role="alert"></p>
+        <button id="nick-go" class="btn primary block" type="submit">Открыть счёт</button>
+      </form>
+      <div style="display:flex;justify-content:center;gap:20px"><button class="link adm-open" type="button">Вход администратора</button><button class="link cfg-open" type="button">Настройки</button></div>
+    </div>
+  </section>
+
+  <div id="v-main" hidden>
+    <div class="app">
+      <header class="top">
+        <div class="brand" style="gap:10px"><span id="me-av" style="display:inline-flex"></span><span id="me-nick" style="display:flex;align-items:center;min-width:0;font-size:14px"></span></div>
+        <div style="display:flex;align-items:center;gap:14px"><button id="theme-btn" class="link" type="button" aria-label="Тема оформления" style="font-size:20px;line-height:1">◐</button><button id="logout" class="link" type="button">Сменить</button></div>
+      </header>
+
+      <section id="t-home" class="app" style="gap:18px">
+        <div id="home-warn" class="banner" hidden><b>Аккаунт заблокирован.</b> Просрочен платёж по кредиту, переводы недоступны. Погасите долг во вкладке «Кредит».</div>
+        <section id="net-pick" class="panel" hidden>
+          <h3>Выберите платёжную систему карты</h3>
+          <p class="hint">Выбор делается один раз. Потом номер и систему может изменить только администратор.</p>
+          <div class="actions">
+            <button class="btn ghost" data-net="visa" type="button">Visa</button>
+            <button class="btn ghost" data-net="mastercard" type="button">Mastercard</button>
+            <button class="btn ghost" data-net="uzcard" type="button">Uzcard</button>
+            <button class="btn ghost" data-net="humo" type="button">Humo</button>
+          </div>
+        </section>
+        <div class="card">
+          <div><div class="card-top"><div class="lbl">Баланс</div><div class="sbrand">SAMARKAND</div></div><div class="bal" style="margin-top:6px"><span class="cur">$</span><span id="bal">0</span><small id="bal-u">USD</small></div></div>
+          <div class="card-foot">
+            <div><button class="num" id="cardnum" type="button" aria-label="Номер карты, нажмите чтобы скопировать"></button><div class="holder" id="holder"></div></div>
+            <div class="net" id="net"></div>
+          </div>
+        </div>
+        <div id="cd-bar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
+        <div class="actions" style="grid-template-columns:repeat(3,1fr)">
+          <button class="btn primary" data-go="send" type="button">Перевести</button>
+          <button class="btn ghost" data-go="qr" type="button">QR-код</button>
+          <button class="btn ghost" id="copy-nick" type="button">Мой ник</button>
+        </div>
+        <button class="btn ghost block" data-go="game" type="button">💣 Играть в «Бомбочки»</button>
+        <button class="btn ghost block" data-go="dice" type="button">🎲 Играть в «Кубик»</button>
+        <button class="btn ghost block" data-go="slots" type="button">🎰 Играть в «Рулетку»</button>
+        <button class="btn ghost block" data-go="crash" type="button">🚀 Играть в «Ракетку»</button>
+        <section class="panel" id="vc-panel" hidden>
+          <div class="row-h"><h2>Цвет галочки</h2></div>
+          <p class="hint">Основная синяя бесплатна. Каждый другой цвет покупается один раз за 200 000 $ и потом переключается бесплатно.</p>
+          <div id="vc-list" class="list"></div>
+          <p id="vc-err" class="err" role="alert"></p>
+        </section>
+        <section class="panel" id="sub-panel">
+          <div class="row-h"><h2>Подписка Samarkand+</h2><span class="pill" id="sub-pill">Бесплатно</span></div>
+          <p class="hint" id="sub-txt"></p>
+        </section>
+        <section class="panel">
+          <div class="row-h"><h2>Валюты</h2><button class="link" id="fx-open" type="button">Обменять</button></div>
+          <div id="wallets" class="list"></div>
+          <p class="hint" id="rates-line"></p>
+        </section>
+        <section class="panel">
+          <div class="row-h"><h2>Последние операции</h2><button class="link" data-go="hist" type="button">Все</button></div>
+          <div id="recent" class="list"></div>
+        </section>
+        <div style="display:flex;justify-content:center;gap:20px"><button id="adm-open" class="link adm-open" type="button">Вход администратора</button><button class="link cfg-open" type="button">Настройки</button></div>
+        <p id="reg-line" class="hint" style="text-align:center;margin:0"></p>
+        <button id="self-del" class="link" type="button" style="align-self:center;color:#e5675f">Удалить мой аккаунт</button>
+      </section>
+
+      <section id="t-send" class="app" style="gap:16px" hidden>
+        <h2>Перевод по номеру карты</h2>
+        <div class="panel">
+          <label class="f" for="to-card">Номер карты получателя
+            <input id="to-card" class="inp mono" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" autocomplete="off">
+          </label>
+          <p class="hint" id="to-who">Введите 16 цифр с карты друга.</p>
+          <div class="chips" id="recent-to"></div>
+          <label class="f" for="amt">Сумма
+            <input id="amt" class="inp amount" inputmode="numeric" placeholder="0" autocomplete="off">
+          </label>
+          <div class="chips" id="chips"></div>
+          <p class="hint" id="avail"></p>
+          <label class="f" for="note">Комментарий
+            <input id="note" class="inp" maxlength="60" placeholder="За пиццу" autocomplete="off">
+          </label>
+          <p id="send-err" class="err" role="alert"></p>
+          <button id="send-go" class="btn primary block" type="button" disabled>Продолжить</button>
+        </div>
+      </section>
+
+      <section id="t-qr" class="app" style="gap:16px" hidden>
+        <h2>QR-код</h2>
+        <section class="panel">
+          <h3>Получить оплату</h3>
+          <label class="f" for="qr-amt">Сумма в долларах, можно не указывать
+            <input id="qr-amt" class="inp amount" inputmode="numeric" placeholder="0" autocomplete="off">
+          </label>
+          <button id="qr-make" class="btn primary block" type="button">Создать QR-код</button>
+          <p id="qr-err" class="err" role="alert"></p>
+          <div id="qr-out" class="qr-out" hidden>
+            <canvas id="qr-canvas" class="qr-canvas" width="264" height="264" aria-label="QR-код для оплаты"></canvas>
+            <p class="hint" id="qr-cap"></p>
+            <button id="qr-copy" class="btn ghost sm" type="button">Скопировать код</button>
+            <p class="hint mono qr-text" id="qr-code"></p>
+            <p class="hint">Каждый QR-код новый и оплачивается один раз. Страница не может включить камеру, поэтому плательщик загружает скриншот QR или вставляет код.</p>
+          </div>
+        </section>
+        <section class="panel">
+          <h3>Оплатить по QR</h3>
+          <button id="qr-cam" class="btn primary block" type="button">Сканировать камерой</button>
+          <label class="f" for="qr-file">Или фото, скриншот QR-кода
+            <input id="qr-file" class="inp" type="file" accept="image/*">
+          </label>
+          <label class="f" for="qr-text">Или вставьте код
+            <input id="qr-text" class="inp mono" placeholder="SMB1|…" autocomplete="off" spellcheck="false">
+          </label>
+          <p id="qr-pay-err" class="err" role="alert"></p>
+          <div id="qr-res" class="panel-in" hidden>
+            <p id="qr-who"></p>
+            <label class="f" for="qr-pay-amt">Сумма в долларах
+              <input id="qr-pay-amt" class="inp amount" inputmode="numeric" placeholder="0" autocomplete="off">
+            </label>
+            <button id="qr-pay-go" class="btn primary block" type="button" disabled>Оплатить</button>
+          </div>
+        </section>
+      </section>
+
+      <section id="t-credit" class="app" style="gap:16px" hidden>
+        <h2>Кредит</h2>
+        <div id="c-banner" class="banner" hidden></div>
+        <div id="c-req" class="panel" hidden></div>
+        <div id="c-active"></div>
+        <div id="c-take" class="panel">
+          <h3>Взять кредит</h3>
+          <label class="f" for="c-amt">Сумма от 100 до 500 000 $
+            <input id="c-amt" class="inp amount" inputmode="numeric" placeholder="0" autocomplete="off">
+          </label>
+          <div class="f"><span id="c-term-l" style="font-size:13px;color:var(--muted)">Срок</span>
+            <div class="chips" id="c-terms" role="group" aria-labelledby="c-term-l"></div>
+          </div>
+          <p class="hint" id="c-prev"></p>
+          <p id="c-err" class="err" role="alert"></p>
+          <button id="c-go" class="btn primary block" type="button" disabled>Взять кредит</button>
+          <p class="hint">Просрочили платёж: аккаунт блокируется, а администратор решает, удалять его или нет.</p>
+        </div>
+        <section class="panel">
+          <h3>История кредитов</h3>
+          <div id="c-loans" class="list"></div>
+        </section>
+        <section class="panel">
+          <h3>История платежей по кредиту</h3>
+          <div id="c-pays" class="list"></div>
+        </section>
+      </section>
+
+      <section id="t-game" class="app" style="gap:16px" hidden>
+        <h2>Бомбочки</h2>
+        <div class="panel">
+          <p class="hint">Поле 10×10. Открывайте клетки и зарабатывайте. Наткнулись на бомбу, потеряли ставку. Нажмите «Забрать», чтобы получить выигрыш на счёт.</p>
+          <div>
+            <h3>Сколько бомб (1–9)</h3>
+            <div id="g-bombs" class="chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+          </div>
+          <label class="f" for="g-bet">Ваша сумма, $
+            <input id="g-bet" class="inp" inputmode="numeric" value="10" autocomplete="off">
+          </label>
+          <div id="g-bets" class="chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+          <div class="kv"><span>За каждую клетку</span><span id="g-per" class="mono"></span></div>
+          <div class="kv"><span>Потеряете, если бомба</span><span id="g-stake" class="mono"></span></div>
+          <button id="g-start" class="btn primary block" type="button">Начать игру</button>
+          <p id="g-err" class="err" role="alert"></p>
+        </div>
+        <div id="g-play" class="panel" hidden>
+          <div class="kv"><span>Выигрыш в раунде</span><span id="g-win" class="mono"></span></div>
+          <div id="g-grid" class="mg" role="grid" aria-label="Поле"></div>
+          <button id="g-cash" class="btn primary block" type="button">Забрать выигрыш</button>
+        </div>
+      </section>
+
+      <section id="t-hist" class="app" style="gap:16px" hidden>
+        <h2>История переводов</h2>
+        <div class="panel">
+          <div class="seg" id="hf" role="group" aria-label="Тип переводов">
+            <button type="button" data-hf="all" aria-pressed="true">Все</button>
+            <button type="button" data-hf="in" aria-pressed="false">Входящие</button>
+            <button type="button" data-hf="out" aria-pressed="false">Исходящие</button>
+            <button type="button" data-hf="fx" aria-pressed="false">Обмен</button>
+          </div>
+          <button type="button" data-hf="game" class="link" style="align-self:flex-start" id="hf-game" aria-pressed="false">Только игры</button>
+          <input id="hq" class="inp" placeholder="Поиск по нику" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Поиск по нику">
+          <div id="hist" class="list"></div>
+          <button id="hist-clear" class="link" type="button" style="align-self:center;color:#e5675f">Очистить историю</button>
+          <p class="hint">Очистка прячет историю только у вас. Баланс не меняется, у получателей их записи остаются.</p>
+        </div>
+      </section>
+
+      <section id="t-dice" class="app" style="gap:16px" hidden>
+        <h2>Кубик</h2>
+        <div class="panel">
+          <p class="hint">Выберите число от 1 до 6 в таблице и поставьте сумму от 50 000 $. Бросьте кубик: выпало ваше число, и вы получаете ставку ×5. Не выпало, и ставка сгорает.</p>
+          <h3>Ваше число</h3>
+          <div id="d-nums" class="chips" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px"></div>
+          <label class="f" for="d-bet">Ставка, $ (от 50 000)
+            <input id="d-bet" class="inp" inputmode="numeric" value="50000" autocomplete="off">
+          </label>
+          <div id="d-bets" class="chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+          <div class="kv"><span>Если угадали</span><span id="d-win" class="mono"></span></div>
+          <div class="kv"><span>Если нет</span><span id="d-lose" class="mono"></span></div>
+          <div id="d-face" aria-live="polite" style="text-align:center;font-size:72px;line-height:1.1;min-height:84px">🎲</div>
+          <p id="d-res" class="hint" style="text-align:center;font-size:16px"></p>
+          <button id="d-go" class="btn primary block" type="button">Бросить кубик</button>
+          <p id="d-err" class="err" role="alert"></p>
+        </div>
+      </section>
+      <section id="t-crash" class="app" style="gap:16px" hidden>
+        <h2>Ракетка</h2>
+        <div class="panel">
+          <p class="hint">Ракета взлетает, и множитель растёт. Нажмите «Забрать» до того, как она улетит, и получите ставку × множитель. Улетела раньше, и ставка сгорает. Если закрыть банк во время полёта, ставка сгорит.</p>
+          <div style="text-align:center;padding:8px 0">
+            <div id="cr-rocket" style="font-size:64px;line-height:1;transition:transform .1s">🚀</div>
+            <div id="cr-mult" class="mono" style="font-size:44px;font-weight:700">×1.00</div>
+          </div>
+          <p id="cr-res" class="hint" style="text-align:center;font-size:16px;min-height:24px"></p>
+          <label class="f" for="cr-bet">Ставка, $ (от 100)
+            <input id="cr-bet" class="inp" inputmode="numeric" value="500" autocomplete="off">
+          </label>
+          <div id="cr-bets" class="chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+          <label class="f" for="cr-auto">Авто-забор на множителе (по желанию)
+            <input id="cr-auto" class="inp" inputmode="decimal" placeholder="например, 2" autocomplete="off">
+          </label>
+          <button id="cr-go" class="btn primary block" type="button">Старт</button>
+          <button id="cr-out" class="btn block" type="button" style="background:var(--in);color:#06281D" hidden>Забрать</button>
+          <p id="cr-err" class="err" role="alert"></p>
+        </div>
+      </section>
+      <section id="t-slots" class="app" style="gap:16px" hidden>
+        <h2>Рулетка</h2>
+        <div class="panel">
+          <p class="hint">Крутятся три барабана. Выпали три одинаковых, и вы забираете выигрыш по таблице. Выпало в разнобой, и вы ничего не получаете: ставка сгорает.</p>
+          <div id="s-reels" style="display:flex;justify-content:center;gap:10px">
+            <div class="reel">🎰</div><div class="reel">🎰</div><div class="reel">🎰</div>
+          </div>
+          <p id="s-res" class="hint" style="text-align:center;font-size:16px;min-height:24px"></p>
+          <label class="f" for="s-bet">Ставка, $ (от 100)
+            <input id="s-bet" class="inp" inputmode="numeric" value="500" autocomplete="off">
+          </label>
+          <div id="s-bets" class="chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+          <button id="s-go" class="btn primary block" type="button">Крутить</button>
+          <p id="s-err" class="err" role="alert"></p>
+          <h3>Таблица выплат</h3>
+          <div id="s-table" class="list"></div>
+        </div>
+      </section>
+      <section id="t-support" class="app" style="gap:12px" hidden>
+        <div class="row-h"><div id="sp-head" style="display:flex;align-items:center;gap:10px;min-width:0"></div><button id="sp-back" class="link" type="button">Назад</button></div>
+        <p class="hint" id="sp-sub"></p>
+        <div id="sp-inbox" class="list" hidden></div>
+        <div id="sp-list" class="sp-list" aria-live="polite"></div>
+        <form id="sp-form" class="panel">
+          <textarea id="sp-in" class="inp" rows="2" maxlength="500" placeholder="Напишите сообщение" style="resize:none"></textarea>
+          <p id="sp-err" class="err" role="alert"></p>
+          <button id="sp-send" class="btn primary block" type="submit">Отправить</button>
+        </form>
+      </section>
+      <section id="t-admin" class="app" style="gap:16px" hidden>
+        <h2>Администратор</h2>
+        <section id="a-staff-box" class="panel" hidden>
+          <h3>Администраторы</h3>
+          <div id="a-staff" class="list"></div>
+          <label class="f" for="a-staff-nick">Добавить по нику
+            <input id="a-staff-nick" class="inp" placeholder="ник игрока" autocomplete="off" autocapitalize="none" spellcheck="false">
+          </label>
+          <h3>Уровень нового администратора</h3>
+          <div id="a-staff-lv" class="chips sm" role="group" aria-label="Уровень"></div>
+          <p class="hint" id="a-staff-lvhint"></p>
+          <p id="a-staff-err" class="err" role="alert"></p>
+          <button id="a-staff-add" class="btn primary block" type="button">Сделать администратором</button>
+          <p class="hint">Новый администратор видит эту панель, меняет карты и курсы и удаляет должников, но безлимитных денег у него нет. Чтобы его действия записывались в хранилище, дайте ему доступ редактора в меню «Поделиться».</p>
+        </section>
+        <section class="panel" id="a-rates-box" data-perm="rates">
+          <h3>Курсы валют</h3>
+          <label class="f" for="a-rub">Рублей за 1 $
+            <input id="a-rub" class="inp" inputmode="decimal" autocomplete="off">
+          </label>
+          <label class="f" for="a-eur">Евро за 1 $
+            <input id="a-eur" class="inp" inputmode="decimal" autocomplete="off">
+          </label>
+          <p id="a-rate-err" class="err" role="alert"></p>
+          <button id="a-rate-save" class="btn primary block" type="button">Сохранить курсы</button>
+        </section>
+        <section class="panel" id="a-own-box" data-perm="take">
+          <h3>Владелец</h3>
+          <button id="tk-open" class="btn danger block" type="button">− Забрать деньги у пользователя</button>
+          <p class="hint">Доступно только владельцу банка. Пользователь увидит списание в истории и получит уведомление.</p>
+        </section>
+        <section class="panel" id="a-vf-box" data-perm="verify">
+          <h3>Галочки</h3>
+          <button id="vf-open" class="btn ghost block" type="button">✓ Выдать галочку</button>
+          <div id="vf-list" class="list"></div>
+        </section>
+        <section class="panel" id="a-req-box" data-perm="credit">
+          <h3>Заявки на кредит</h3>
+          <div id="a-req" class="list"></div>
+          <p class="hint">Одобрить: кредит сразу зачисляется на счёт. Ожидание: заявка остаётся в списке. Отказать: человек сможет подать новую заявку.</p>
+        </section>
+        <section class="panel" data-perm="cards">
+          <h3>Карты игроков</h3>
+          <div id="a-cards" class="list"></div>
+          <p class="hint">Номера карт игровые и не проходят проверку настоящих карт. Менять их может только администратор.</p>
+        </section>
+        <section class="panel" data-perm="delete">
+          <h3>Заблокированные за просрочку</h3>
+          <div id="a-blocked" class="list"></div>
+          <p class="hint">Удаление делаете вы сами. Аккаунт исчезнет из списка друзей, ник освободится, а открыть счёт заново с того же профиля будет нельзя. Прошлые переводы останутся в истории.</p>
+        </section>
+        <section class="panel">
+          <h3>Действующие кредиты</h3>
+          <div id="a-loans" class="list"></div>
+        </section>
+      </section>
+
+      <section id="t-done" class="app" style="gap:18px" hidden>
+        <div class="done">
+          <div class="tick"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <p class="muted">Перевод выполнен</p>
+          <div class="big" id="d-amt"></div>
+        </div>
+        <div class="panel" id="d-kv"></div>
+        <button class="btn primary block" id="d-ok" type="button">Готово</button>
+      </section>
+    </div>
+
+    <nav class="tabs" aria-label="Разделы"><div>
+      <button class="tab" data-go="home" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10.5h18M7 15h3"/></svg>Счёт</button>
+      <button class="tab" data-go="send" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Перевод</button>
+      <button class="tab" data-go="credit" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M16.5 7.5c-.8-1.2-2.4-2-4.5-2-2.6 0-4.2 1.2-4.2 3s1.4 2.5 4.2 3 4.2 1.2 4.2 3-1.700 3-4.200 3c-2.200 0-3.900-.9-4.700-2.200"/></svg>Кредит</button>
+      <button class="tab" data-go="hist" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>История</button>
+      <button class="tab" id="tab-admin" data-go="admin" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.500-3.200 8-8 9-4.800-1-8-4.500-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Админ<span class="badge" id="ad-badge" hidden></span></button>
+    <button class="tab" id="tab-support" data-go="support" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.2A8 8 0 1 1 21 12z"/></svg><span class="lbl2">Чат поддержки</span><span class="badge" id="sp-badge" hidden></span></button>
+      </div></nav>
+  </div>
+</div>
+
+<div id="scrim" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t">
+    <h2 id="sh-t">Подтвердите перевод</h2>
+    <div id="sh-kv"></div>
+    <p id="sh-err" class="err" role="alert"></p>
+    <button id="sh-ok" class="btn primary block" type="button">Перевести</button>
+    <button id="sh-no" class="btn ghost block" type="button">Отмена</button>
+  </div>
+</div>
+<div id="scrim2" class="scrim" hidden>
+  <form id="f-admin" class="sheet" role="dialog" aria-modal="true" aria-labelledby="ad-t" autocomplete="off">
+    <h2 id="ad-t">Вход администратора</h2>
+    <label class="f" for="adm-login">Логин
+      <input id="adm-login" class="inp" autocapitalize="none" spellcheck="false" autocomplete="off">
+    </label>
+    <label class="f" for="adm-pass">Пароль
+      <input id="adm-pass" class="inp" type="password" autocomplete="off">
+    </label>
+    <p id="adm-err" class="err" role="alert"></p>
+    <button id="adm-go" class="btn primary block" type="submit">Войти</button>
+    <button id="adm-no" class="btn ghost block" type="button">Отмена</button>
+  </form>
+</div>
+<div id="scrim8" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rc-t" style="max-height:92vh;overflow:auto">
+    <p class="hint" style="margin:0">Чек Samarkand_bank</p>
+    <h2 id="rc-t"></h2>
+    <div id="rc-amt" class="big" style="font-size:30px"></div>
+    <div id="rc-kv"></div>
+    <p id="rc-err" class="err" role="alert"></p>
+    <button id="rc-del" class="btn danger block" type="button">Удалить из моей истории</button>
+    <p class="hint">У другого человека запись останется, баланс не изменится.</p>
+    <button id="rc-no" class="btn ghost block" type="button">Закрыть</button>
+  </div>
+</div>
+<div id="scrim12" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mv-t" style="max-height:92vh;overflow:auto">
+    <h2 id="mv-t">Перевод между картами</h2>
+    <p class="hint">Новая карта начинается с нуля. Переведите на неё часть денег с основной.</p>
+    <label class="f" for="mv-from">С карты<select id="mv-from" class="inp"></select></label>
+    <label class="f" for="mv-to">На карту<select id="mv-to" class="inp"></select></label>
+    <label class="f" for="mv-amt">Сумма, $<input id="mv-amt" class="inp" inputmode="numeric" autocomplete="off"></label>
+    <p id="mv-err" class="err" role="alert"></p>
+    <button id="mv-go" class="btn primary block" type="button">Перевести</button>
+    <button id="mv-no" class="btn ghost block" type="button">Закрыть</button>
+  </div>
+</div>
+<div id="scrim11" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cs-t" style="max-height:92vh;overflow:auto">
+    <h2 id="cs-t"></h2>
+    <div id="cs-prev" class="card" style="min-height:92px;gap:6px;padding:16px"><div class="num" id="cs-pnum"></div><div class="net" id="cs-pnet" style="align-self:flex-end"></div></div>
+    <div id="cs-nets-wrap"><h3>Платёжная система</h3><div id="cs-nets" class="chips" style="margin-top:8px"></div></div>
+    <label id="cs-name-wrap" class="f" for="cs-name">Название карты
+      <input id="cs-name" class="inp" maxlength="16" autocomplete="off" placeholder="Например, Для игр">
+    </label>
+    <div><h3>Цвет карты</h3><div id="cs-cols" class="chips" style="margin-top:8px"></div></div>
+    <label class="f" for="cs-color">Свой цвет
+      <input id="cs-color" class="inp" type="color" value="#34459A" style="height:46px;padding:4px">
+    </label>
+    <p id="cs-err" class="err" role="alert"></p>
+    <button id="cs-save" class="btn primary block" type="button"></button>
+    <button id="cs-reset" class="btn ghost block" type="button">Вернуть стандартный цвет</button>
+    <button id="cs-del" class="btn danger block" type="button">Удалить карту</button>
+    <button id="cs-no" class="btn ghost block" type="button">Закрыть</button>
+  </div>
+</div>
+<div id="scrim10" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="tk-t" style="max-height:92vh;overflow:auto">
+    <div id="tk-pick">
+      <h2 id="tk-t">У кого забрать деньги</h2>
+      <input id="tk-q" class="inp" placeholder="Поиск по нику" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <div id="tk-cands" class="list"></div>
+      <button id="tk-no" class="btn ghost block" type="button">Отмена</button>
+    </div>
+    <form id="tk-form" style="display:none;flex-direction:column;gap:12px">
+      <h2 id="tk-who"></h2>
+      <p class="hint" id="tk-bal"></p>
+      <label class="f" for="tk-amt">Сумма, $
+        <input id="tk-amt" class="inp" inputmode="numeric" autocomplete="off" placeholder="например, 5 000">
+      </label>
+      <label class="f" for="tk-note">Причина (по желанию)
+        <input id="tk-note" class="inp" maxlength="60" autocomplete="off" placeholder="Штраф, возврат, ошибка">
+      </label>
+      <p id="tk-err" class="err" role="alert"></p>
+      <button id="tk-go" class="btn danger block" type="submit">Забрать</button>
+      <button id="tk-back" class="btn ghost block" type="button">Назад</button>
+    </form>
+    <div id="tk-done" style="display:none;flex-direction:column;align-items:center;gap:12px;text-align:center">
+      <h2 id="tk-dt"></h2>
+      <p class="hint" id="tk-dd"></p>
+      <button id="tk-ok" class="btn primary block" type="button">Готово</button>
+    </div>
+  </div>
+</div>
+<div id="scrim9" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="vf-t" style="max-height:92vh;overflow:auto">
+    <div id="vf-pick">
+      <h2 id="vf-t">Выдать галочку</h2>
+      <input id="vf-q" class="inp" placeholder="Поиск по нику" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <div id="vf-cands" class="list"></div>
+      <p id="vf-err" class="err" role="alert"></p>
+      <button id="vf-no" class="btn ghost block" type="button">Отмена</button>
+    </div>
+    <div id="vf-done" style="text-align:center;display:none;flex-direction:column;align-items:center;gap:12px">
+      <div id="vf-big"></div>
+      <h2 id="vf-dt"></h2>
+      <p class="hint">Теперь рядом с ником пользователя стоит синяя галочка.</p>
+      <button id="vf-ok" class="btn primary block" type="button">Готово</button>
+    </div>
+  </div>
+</div>
+<div id="scrim3" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dl-t">
+    <h2 id="dl-t">Удалить аккаунт?</h2>
+    <p id="dl-txt" class="muted"></p>
+    <label id="dl-pw-wrap" class="f" for="dl-pass" hidden>Пароль аккаунта
+      <input id="dl-pass" class="inp" type="password" autocomplete="off">
+    </label>
+    <p id="dl-err" class="err" role="alert"></p>
+    <button id="dl-ok" class="btn danger block" type="button">Удалить</button>
+    <button id="dl-no" class="btn ghost block" type="button">Отмена</button>
+  </div>
+</div>
+<div id="scrim5" class="scrim" hidden>
+  <form id="f-fx" class="sheet" role="dialog" aria-modal="true" aria-labelledby="fx-t" autocomplete="off">
+    <h2 id="fx-t">Обмен валюты</h2>
+    <div class="seg two" id="x-side" role="group" aria-label="Действие">
+      <button type="button" data-xside="buy" aria-pressed="true">Купить валюту</button>
+      <button type="button" data-xside="sell" aria-pressed="false">Продать валюту</button>
+    </div>
+    <div class="chips" id="x-cur" role="group" aria-label="Валюта"></div>
+    <label class="f" for="x-amt">Сумма в долларах
+      <input id="x-amt" class="inp amount" inputmode="numeric" placeholder="0" autocomplete="off">
+    </label>
+    <p class="hint" id="x-avail"></p>
+    <p class="hint" id="x-prev"></p>
+    <p id="x-err" class="err" role="alert"></p>
+    <button id="x-go" class="btn primary block" type="submit" disabled>Обменять</button>
+    <button id="x-no" class="btn ghost block" type="button">Отмена</button>
+  </form>
+</div>
+<div id="scrim4" class="scrim" hidden>
+  <form id="f-card" class="sheet" role="dialog" aria-modal="true" aria-labelledby="ec-t" autocomplete="off">
+    <h2 id="ec-t">Карта</h2>
+    <div class="f"><span id="e-net-l" style="font-size:13px;color:var(--muted)">Платёжная система</span>
+      <div class="chips" id="e-nets" role="group" aria-labelledby="e-net-l"></div>
+    </div>
+    <label class="f" for="e-num">Номер карты
+      <input id="e-num" class="inp mono" inputmode="numeric" maxlength="19" autocomplete="off">
+    </label>
+    <button id="e-gen" class="btn ghost block" type="button">Сгенерировать случайный номер</button>
+    <p class="hint">Не вводите номера настоящих карт: их увидят все, у кого есть доступ к банку.</p>
+    <p id="e-err" class="err" role="alert"></p>
+    <button id="e-save" class="btn primary block" type="submit">Сохранить</button>
+    <button id="e-no" class="btn ghost block" type="button">Отмена</button>
+  </form>
+</div>
+<div id="scrim6" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cam-t">
+    <h2 id="cam-t">Сканер QR-кода</h2>
+    <video id="cam-v" playsinline muted style="width:100%;border-radius:14px;background:#000;aspect-ratio:1;object-fit:cover"></video>
+    <p id="cam-msg" class="hint">Наведите камеру на QR-код Samarkand_bank.</p>
+    <button id="cam-no" class="btn ghost block" type="button">Закрыть</button>
+  </div>
+</div>
+<div id="toast" class="toast" hidden role="status"></div>
+<script>
+(function(){
+  function load(urls,ok){
+    var i=0;
+    (function next(){
+      if(i>=urls.length)return;
+      var s=document.createElement('script');
+      s.src=urls[i++];
+      s.onload=function(){if(!ok())next()};
+      s.onerror=next;
+      document.head.appendChild(s);
+    })();
+  }
+  load(['https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js','https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js','https://unpkg.com/qrcode-generator@1.4.4/qrcode.js'],function(){return typeof qrcode!=='undefined'});
+  load(['https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js','https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js','https://unpkg.com/jsqr@1.4.0/dist/jsQR.js'],function(){return typeof jsQR!=='undefined'});
+})();
+</script>
+<script>
+/* Хранилище для автономного приложения: те же вызовы, что у облачной базы Claude.
+   Без адреса облака данные лежат в памяти устройства (localStorage).
+   С адресом Firebase Realtime Database все устройства работают с одними данными. */
+(function(){
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function clone(x){return x===undefined?undefined:JSON.parse(JSON.stringify(x))}
+  function rnd22(){
+    var abc='abcdefghijklmnopqrstuvwxyz0123456789',out='',a=new Uint32Array(22);
+    try{crypto.getRandomValues(a)}catch(e){for(var j=0;j<22;j++)a[j]=Math.floor(Math.random()*4294967296)}
+    for(var i=0;i<22;i++)out+=abc[a[i]%abc.length];
+    return out;
+  }
+  var DEFAULT_CLOUD='https://samarkand-bank-default-rtdb.firebaseio.com';
+  var cloud=(lsGet('smb_cloud')||DEFAULT_CLOUD).trim().replace(/\/+$/,'');
+
+  /* Telegram Mini App: человека определяем по его Telegram-аккаунту */
+  function tgUser(){
+    try{
+      var w=window.Telegram&&window.Telegram.WebApp;
+      if(w&&w.initDataUnsafe&&w.initDataUnsafe.user&&w.initDataUnsafe.user.id)return w.initDataUnsafe.user;
+      var raw=null;
+      var h=(location.hash||'').replace(/^#/,'');
+      if(h){raw=new URLSearchParams(h).get('tgWebAppData')}
+      if(!raw){var ss=sessionStorage.getItem('__telegram__initParams');if(ss){raw=(JSON.parse(ss)||{}).tgWebAppData}}
+      if(raw){var u=new URLSearchParams(raw).get('user');if(u){var o=JSON.parse(u);if(o&&o.id)return o}}
+    }catch(e){}
+    return null;
+  }
+  var tg=tgUser();
+  try{var w0=window.Telegram&&window.Telegram.WebApp;if(w0&&w0.initData){w0.ready();w0.expand()}}catch(e){}
+  var viewer;
+  if(tg&&/^\d{3,15}$/.test(String(tg.id))){viewer='u_tg'+tg.id}
+  else{viewer=lsGet('smb_viewer');if(!viewer){viewer='u_'+rnd22();lsSet('smb_viewer',viewer)}}
+
+  function loadLocal(){try{return JSON.parse(lsGet('smb_store')||'{}')||{}}catch(e){return {}}}
+  function saveLocal(s){lsSet('smb_store',JSON.stringify(s))}
+  function merge(a,b){
+    var o=Array.isArray(a)?a.slice():Object.assign({},a),k,v;
+    for(k in b){v=b[k];
+      if(v&&typeof v==='object'&&!Array.isArray(v)&&o[k]&&typeof o[k]==='object'&&!Array.isArray(o[k]))o[k]=merge(o[k],v);
+      else o[k]=v;
+    }
+    return o;
+  }
+  function netErr(r){return {code:(r&&(r.status===401||r.status===403))?'invalid_argument':'unavailable'}}
+
+  async function readCol(col){
+    if(!cloud)return loadLocal()[col]||{};
+    var r;try{r=await fetch(cloud+'/smb/'+col+'.json',{cache:'no-store'})}catch(e){throw {code:'unavailable'}}
+    if(!r.ok)throw netErr(r);
+    return (await r.json())||{};
+  }
+  async function readDoc(col,id){
+    if(!cloud){var c=loadLocal()[col];return c&&c[id]!==undefined?c[id]:null}
+    var r;try{r=await fetch(cloud+'/smb/'+col+'/'+id+'.json',{cache:'no-store'})}catch(e){throw {code:'unavailable'}}
+    if(!r.ok)throw netErr(r);
+    return await r.json();
+  }
+  async function writeDoc(col,id,data){
+    if(!cloud){
+      var s=loadLocal();
+      if(data===null){if(s[col])delete s[col][id]}
+      else{(s[col]=s[col]||{})[id]=data}
+      saveLocal(s);return;
+    }
+    var r;
+    try{r=await fetch(cloud+'/smb/'+col+'/'+id+'.json',{method:data===null?'DELETE':'PUT',headers:{'Content-Type':'application/json'},body:data===null?undefined:JSON.stringify(data)})}
+    catch(e){throw {code:'unavailable'}}
+    if(!r.ok)throw netErr(r);
+  }
+
+  var listeners=[];
+  function snapOf(m){
+    var ids=Object.keys(m||{}).sort();
+    return {docs:ids.map(function(id){return {id:id,exists:true,data:function(){return clone(m[id])}}}),size:ids.length,empty:!ids.length};
+  }
+  async function pollListener(l){
+    try{
+      var m=await readCol(l.col),sig=JSON.stringify(m);
+      if(sig!==l.sig){l.sig=sig;l.cb(snapOf(m))}
+    }catch(e){/* связи нет: слушатель продолжает ждать и пробует снова */}
+  }
+  function kick(col){listeners.forEach(function(l){if(l.col===col)pollListener(l)})}
+  function pollAll(){listeners.forEach(pollListener)}
+  setInterval(function(){if(cloud&&!document.hidden)pollAll()},3000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)pollAll()});
+  window.addEventListener('storage',function(){pollAll()});
+
+  function docRef(path){
+    var p=path.split('/'),col=p[0],id=p.slice(1).join('_');
+    return {
+      id:id,path:path,
+      get:async function(){var d=await readDoc(col,id);return {id:id,exists:d!==null&&d!==undefined,data:function(){return clone(d)}}},
+      set:async function(d){await writeDoc(col,id,clone(d));kick(col)},
+      update:async function(d){
+        var cur=await readDoc(col,id);
+        if(cur===null||cur===undefined)throw {code:'invalid_argument'};
+        await writeDoc(col,id,merge(cur,clone(d)));kick(col);
+      },
+      delete:async function(){await writeDoc(col,id,null);kick(col)},
+      acquire:async function(){return {acquired:true}}
+    };
+  }
+  var DB={
+    doc:docRef,
+    collection:function(col){
+      return {onSnapshot:function(cb){
+        var l={col:col,cb:cb,sig:null};listeners.push(l);pollListener(l);
+        return function(){listeners=listeners.filter(function(x){return x!==l})};
+      }};
+    }
+  };
+  var USER={id:async function(){return viewer}};
+  window.claude={use:function(n){return Promise.resolve(n==='db'?DB:n==='user'?USER:null)}};
+  window.SMB_ENV={cloud:cloud,viewer:viewer,inTelegram:!!tg,tgUser:tg};
+})();
+</script>
+
+<script>
+(function(){
+  var START = 1000, MAX_SENT = 1200;
+  var RATE = 0.10, MIN_LOAN = 100, MAX_LOAN = 500000, DAY = 86400000, TERMS = [1,7,14,30,60,90], MAX_LOANS = 40;
+  var ADMIN_NICK = 'bmw_s_1000_r_r', ADMIN_LABEL = 'BMW_S_1000_R_R';
+  var SALT = 'samarkand_bank:v1:admin';
+  var PW_HASHES = ['4d1504c834e8637f864b25129be71b4b71e3f119a4f685c07f12ec9699576cd3','cc3f084bc7da0d130a5323cf2bc484350acec6dc3165f4445568cc0670d7d15e'];
+  var S = {db:null, viewer:null, uid:null, rawAcc:{}, rawLed:{}, rawCred:{}, rawFx:{}, auth:'login', lacc:null, qrPay:null, accounts:{}, ledgers:{}, credits:{}, bans:{}, gotA:false, gotL:false, gotC:false, gotB:false,
+           tab:'home', gBet:10, spRd:{}, cmv:{}, sBet:500, cBet:500, stLv:'medium', cr:null, xcards:{}, ccol:{}, cardSel:null, csMode:'new', csId:null, csNet:'visa', csColor:null, dPick:null, dBet:50000, buys:{}, vcol:{}, vcArm:null, adj:{}, adjSeen:null, sel:null, seen:null, busy:false, pending:null, hf:'all', term:7, delUid:null, net:'visa', editUid:null, eNet:'visa', fx:{}, games:{}, clr:{}, bonus:{}, sub:{}, hid:{}, rawSup:{}, sup:[], spTarget:null, spCnt:null, g:null, gBombs:3, rates:null, gotX:false, gotR:false, xSide:'buy', xCur:'rub'};
+  var $ = function(id){return document.getElementById(id)};
+  var esc = function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+
+  function money(n){return n.toLocaleString('ru-RU')+' $'}
+  var SYM={usd:'$',rub:'₽',eur:'€'}, CNAME={rub:'Рубли',eur:'Евро'}, CGEN={rub:'рублей',eur:'евро'}, DEF_RATES={rub:80,eur:0.86}, MAX_OPS=800, FEE=0.03;
+  function isStaff(a){return !!(a&&(a.admin||a.staff))}
+  var LEVELS={
+    low:{n:'Низкий',p:['support','verify'],d:'Чат поддержки и выдача галочек.'},
+    medium:{n:'Средний',p:['support','verify','cards','rates'],d:'Всё, что у низкого, плюс смена номеров карт и курсов валют.'},
+    high:{n:'Высокий',p:['support','verify','cards','rates','credit','delete','take','peek'],d:'Почти всё, как у владельца: кредиты, удаление аккаунтов, списание денег. Без управления администрацией.'}
+  };
+  function lvOf(a){return (a&&a.level&&LEVELS[a.level])?a.level:'medium'}
+  function can(uid,p){var a=S.accounts[uid];if(!a)return false;if(a.admin)return true;if(!a.staff)return false;return LEVELS[lvOf(a)].p.indexOf(p)>-1}
+  function fmtC(c,cur){return (c/100).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+SYM[cur]}
+  function fmtRate(v){return v.toLocaleString('ru-RU',{maximumFractionDigits:4})}
+  function hash(s){var h=7;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
+  function avatar(nick,size){var h=hash(nick)%360;return '<span class="av" style="width:'+size+'px;height:'+size+'px;font-size:'+Math.round(size*0.42)+'px;background:hsl('+h+' 48% 40%)">'+esc((nick||'?').charAt(0).toUpperCase())+'</span>'}
+  var COLORS={blue:{n:'Синяя',c:'#3A8DFF'},black:{n:'Чёрная',c:'#1A1A1A'},green:{n:'Зелёная',c:'#22A06B'},red:{n:'Красная',c:'#E5484D'}},COLOR_PRICE=200000;
+  function badgeSvg(col){var c=(COLORS[col]||COLORS.blue).c;return '<svg class="vf" viewBox="0 0 24 24" role="img" aria-label="Подтверждён"><circle cx="12" cy="12" r="11" fill="'+c+'"'+(col==='black'?' stroke="#9AA0B8" stroke-width="1"':'')+'/><path d="M7 12.5l3.3 3.3L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+  var BADGE=badgeSvg('blue');
+  function ownedColor(uid,c){var a=S.accounts[uid];return c==='blue'||!!(a&&a.admin)||(S.buys[uid]||[]).some(function(b){return b.item===c})}
+  function colorOf(uid){var c=S.vcol[uid];return (c&&COLORS[c]&&ownedColor(uid,c))?c:'blue'}
+  function vmark(uid){var a=S.accounts[uid];return (a&&(a.verified||a.admin))?badgeSvg(colorOf(uid)):''}
+  function regDate(uid){var a=S.accounts[uid];return a&&a.createdAt?new Date(a.createdAt).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}):'—'}
+  function roleOf(uid){var a=S.accounts[uid];return a&&a.admin?'Владелец':(a&&a.staff?'Администратор':'')}
+  function rolePill(uid){var r=roleOf(uid);return r?'<span class="pill" style="font-size:10px;margin-left:6px;flex:none">'+r+'</span>':''}
+  function nickOf(uid){var a=S.accounts[uid];return a&&a.nick?(a.label||a.nick):'удалённый'}
+  function cardNumber(uid){var h=hash(uid),out='';for(var i=0;i<16;i++){h=(h*1103515245+12345)>>>0;out+=(h>>>16)%10}return out.replace(/(\d{4})(?=\d)/g,'$1 ')}
+  /* игровые карты: номера случайные и намеренно не проходят проверку Луна, чтобы не сойти за настоящие */
+  function rnd(n){try{var a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n}catch(e){return Math.floor(Math.random()*n)}}
+  function luhnOk(s){var sum=0,alt=false;for(var i=s.length-1;i>=0;i--){var d=+s.charAt(i);if(alt){d*=2;if(d>9)d-=9}sum+=d;alt=!alt}return sum%10===0}
+  var NETS=['visa','mastercard','uzcard','humo'],NET_LBL={visa:'VISA',mastercard:'mastercard',uzcard:'UZCARD',humo:'HUMO'};
+  function usedNumbers(except){var u={},k;for(k in S.xcards)(S.xcards[k]||[]).forEach(function(x){u[x.num]=1});for(k in S.accounts){if(k!==except&&S.accounts[k].card)u[S.accounts[k].card.number]=1}return u}
+  function genNumber(net,except){
+    var used=usedNumbers(except),n,i;
+    for(var t=0;t<100;t++){
+      n=net==='mastercard'?'5'+(1+rnd(5)):net==='uzcard'?'8600':net==='humo'?'9860':'4';
+      while(n.length<16)n+=rnd(10);
+      if(luhnOk(n))n=n.slice(0,15)+((+n.charAt(15)+1)%10);
+      if(!used[n])return n;
+    }
+    return n;
+  }
+  function fmtNum(n){return String(n).replace(/\D/g,'').replace(/(\d{4})(?=\d)/g,'$1 ')}
+  function cardOf(uid){var a=S.accounts[uid];if(a&&a.card&&a.card.number)return {number:a.card.number,network:a.card.network||null};return {number:cardNumber(uid).replace(/\s/g,''),network:null}}
+  function netName(n){return n==='mastercard'?'Mastercard':n==='visa'?'Visa':n==='uzcard'?'Uzcard':n==='humo'?'Humo':'без системы'}
+  function when(ts){return new Date(ts).toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+  function day(ts){return new Date(ts).toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}
+  function rid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+  function clone(x){return JSON.parse(JSON.stringify(x))}
+  function ago(ms){var h=Math.floor(ms/3600000);if(h>=24)return Math.floor(h/24)+' дн.';return Math.max(1,h)+' ч.'}
+  function termLabel(d){return d===1?'1 день':d+' дн.'}
+  function payWord(n){return n===1?'платёж':'платежа'}
+
+  var toastT;
+  function toast(msg){var t=$('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},3200)}
+
+  /* ---------- credits ---------- */
+  function allLoansOf(uid){var c=S.credits[uid];return c&&Array.isArray(c.loans)?c.loans:[]}
+  function loansOf(uid){return allLoansOf(uid).filter(function(l){return !l.status||l.status==='approved'})}
+  function requestsOf(uid){return allLoansOf(uid).filter(function(l){return l.status&&l.status!=='approved'})}
+  function openReq(uid){var r=requestsOf(uid);for(var i=r.length-1;i>=0;i--){if(r[i].status==='pending'||r[i].status==='hold')return r[i]}return null}
+  function unpaid(L){return L.inst.filter(function(x){return !x.paidAt})}
+  function activeLoan(uid){var l=loansOf(uid);for(var i=l.length-1;i>=0;i--){if(unpaid(l[i]).length)return l[i]}return null}
+  function overdueOf(uid,now){var r=[];loansOf(uid).forEach(function(L){L.inst.forEach(function(x){if(!x.paidAt&&x.due<now)r.push({loan:L,inst:x})})});return r}
+  function isBlocked(uid){var a=S.accounts[uid];if(!a||a.admin)return false;return overdueOf(uid,Date.now()).length>0}
+  function makePlan(principal,days){
+    var total=Math.round(principal*(1+RATE)),n=days<=7?1:days<=14?2:days<=30?4:days<=60?8:12,per=Math.floor(total/n),inst=[],t=Date.now();
+    for(var i=1;i<=n;i++)inst.push({n:i,due:t+Math.round(days*DAY*i/n),amt:i===n?total-per*(n-1):per,paidAt:null});
+    return {total:total,inst:inst};
+  }
+
+  /* ---------- derived data ---------- */
+  function rates(){var r=S.rates||{};return {rub:+r.rub>0?+r.rub:DEF_RATES.rub,eur:+r.eur>0?+r.eur:DEF_RATES.eur}}
+  function fxOps(uid){var d=S.fx[uid];return d&&Array.isArray(d.ops)?d.ops:[]}
+  function wallet(cur){var c=0;fxOps(S.uid).forEach(function(o){if(o.cur===cur)c+=o.side==='buy'?o.fx:-o.fx});return c}
+  function sentOf(uid){var l=S.ledgers[uid];return l&&Array.isArray(l.sent)?l.sent:[]}
+  function xbal(uid,id){
+    var v=0,k,l,i;
+    (S.cmv[uid]||[]).forEach(function(m){if(m.to===id)v+=m.amt;if(m.from===id)v-=m.amt});
+    for(k in S.ledgers){l=sentOf(k);for(i=0;i<l.length;i++)if(l[i].to===uid&&l[i].rc===id)v+=l[i].amount}
+    return v;
+  }
+  function extrasSum(uid){var t=0;(S.xcards[uid]||[]).forEach(function(c){t+=Math.max(0,xbal(uid,c.id))});return t}
+  function stats(){
+    var inc=0,out=0,loan=0,paid=0,k,i,l;
+    for(k in S.ledgers){l=sentOf(k);for(i=0;i<l.length;i++){if(l[i].to===S.uid)inc+=l[i].amount}}
+    l=sentOf(S.uid);for(i=0;i<l.length;i++)out+=l[i].amount;
+    loansOf(S.uid).forEach(function(L){loan+=L.principal;L.inst.forEach(function(x){if(x.paidAt)paid+=x.amt})});
+    var fxd=0;fxOps(S.uid).forEach(function(o){fxd+=o.side==='buy'?-o.usd:o.usd});
+    (S.games[S.uid]||[]).forEach(function(g){fxd+=g.delta});
+    (S.bonus[S.uid]||[]).forEach(function(b){fxd+=b.amt});
+    (S.adj[S.uid]||[]).forEach(function(a){fxd+=a.amt});
+    (S.buys[S.uid]||[]).forEach(function(b){fxd+=b.amt});
+    var me=S.accounts[S.uid];
+    var total=START+inc-out+loan-paid+fxd,ex=extrasSum(S.uid);
+    return {inc:inc,out:out,total:total,ex:ex,bal:(me&&me.admin)?Infinity:total-ex};
+  }
+  function txs(){
+    var res=[],k,l,i,t;
+    for(k in S.ledgers){l=sentOf(k);for(i=0;i<l.length;i++){t=l[i];
+      if(t.to===S.uid&&k!==S.uid)res.push({kind:'in',other:k,id:t.id,amount:t.amount,note:t.note,ts:t.ts});
+      else if(k===S.uid)res.push({kind:'out',other:t.to,id:t.id,amount:t.amount,note:t.note,ts:t.ts});
+    }}
+    fxOps(S.uid).forEach(function(o){res.push({kind:'fx',id:o.id,cur:o.cur,side:o.side,usd:o.usd,fx:o.fx,rate:o.rate,ts:o.ts})});
+    (S.games[S.uid]||[]).forEach(function(g){res.push({kind:'game',id:g.id,delta:g.delta,bombs:g.bombs,cells:g.cells,boom:g.boom,slot:g.slot,reels:g.reels,crash:g.crash,mult:g.mult,crashAt:g.crashAt,over:g.over,dice:g.dice,pick:g.pick,roll:g.roll,stake:g.stake,ts:g.ts})});
+    (S.cmv[S.uid]||[]).forEach(function(m){res.push({kind:'cmv',id:m.id,amt:m.amt,from:m.from,to:m.to,ts:m.ts})});
+    (S.buys[S.uid]||[]).forEach(function(b){res.push({kind:'buy',id:b.id,amt:b.amt,item:b.item,ts:b.ts})});
+    (S.adj[S.uid]||[]).forEach(function(a){res.push({kind:'adj',id:a.id,amt:a.amt,note:a.note,ts:a.ts})});
+    (S.bonus[S.uid]||[]).forEach(function(b){res.push({kind:'bonus',id:b.id,amt:b.amt,ts:b.ts})});
+    var cut=S.clr[S.uid]||0;
+    var hid=S.hid[S.uid]||[];
+    res=res.filter(function(t){return t.ts>cut&&hid.indexOf(t.id)<0});
+    res.sort(function(a,b){return b.ts-a.ts});return res;
+  }
+  function allLoaded(){return S.gotA&&S.gotL&&S.gotC&&S.gotB&&S.gotX&&S.gotR}
+
+  /* ---------- несколько аккаунтов на один профиль ---------- */
+  function arr(x){return Array.isArray(x)?x:[]}
+  function rebuild(){
+    var acc={},led={},cred={},fxm={},gm={},cl={},bn={},sb={},hd={},ad={},by={},vc={},xc={},cc={},cm2={},k,id,d;
+    for(k in S.rawAcc){d=S.rawAcc[k]||{};
+      if(d.nick){var c=Object.assign({},d);delete c.accs;c.owner=k;c.legacy=true;acc[d.uid||k]=c}
+      if(d.accs){for(id in d.accs){var x=Object.assign({},d.accs[id]);x.owner=k;acc[id]=x}}
+    }
+    for(k in S.rawLed){arr((S.rawLed[k]||{}).sent).forEach(function(e){var f=e.from||k;(led[f]=led[f]||{sent:[]}).sent.push(e)})}
+    for(k in S.rawCred){arr((S.rawCred[k]||{}).loans).forEach(function(l){var f=l.acc||k;(cred[f]=cred[f]||{loans:[]}).loans.push(l)})}
+    for(k in S.rawFx){arr((S.rawFx[k]||{}).ops).forEach(function(o){var f=o.acc||k;(fxm[f]=fxm[f]||{ops:[]}).ops.push(o)})}
+    for(k in S.rawFx){var rf=S.rawFx[k]||{};arr(rf.games).forEach(function(o){var f=o.acc||k;(gm[f]=gm[f]||[]).push(o)});
+      arr(rf.bonus).forEach(function(o){var f=o.acc||k;(bn[f]=bn[f]||[]).push(o)});
+      arr(rf.cmv).forEach(function(o){if(o&&o.acc)(cm2[o.acc]=cm2[o.acc]||[]).push(o)});
+      arr(rf.buys).forEach(function(o){if(o&&o.acc)(by[o.acc]=by[o.acc]||[]).push(o)});
+      var xm=rf.cards||{};for(id in xm)xc[id]=(xc[id]||[]).concat(arr(xm[id]));
+      var cm2=rf.ccol||{};for(id in cm2)cc[id]=cm2[id];
+      var vm=rf.vcol||{};for(id in vm)vc[id]=vm[id];
+      arr(rf.adj).forEach(function(o){if(o&&o.acc)(ad[o.acc]=ad[o.acc]||[]).push(o)});
+      var hm=rf.hid||{};for(id in hm){hd[id]=(hd[id]||[]).concat(arr(hm[id]))}
+      var sm=rf.sub||{};for(id in sm){if(!sb[id]||sm[id].end>sb[id].end)sb[id]=sm[id]}
+      var cm=rf.clr||{};for(id in cm){if(!(cl[id]>cm[id]))cl[id]=cm[id]}}
+    var sp=[];for(k in S.rawSup){arr((S.rawSup[k]||{}).msgs).forEach(function(m){if(m&&m.text)sp.push(m)})}
+    sp.sort(function(a,b){return a.ts-b.ts});S.sup=sp;
+    var sr={};for(k in S.rawSup){var rdm=(S.rawSup[k]||{}).rd||{};for(var t in rdm){var r=rdm[t],o=sr[t]||(sr[t]={u:0,s:0,sBy:null});if(r&&r.by===t){if(r.ts>o.u)o.u=r.ts}else if(r&&r.ts>o.s){o.s=r.ts;o.sBy=r.by}}}
+    S.spRd=sr;
+    S.accounts=acc;S.ledgers=led;S.credits=cred;S.fx=fxm;S.games=gm;S.clr=cl;S.bonus=bn;S.sub=sb;S.hid=hd;S.adj=ad;S.buys=by;S.vcol=vc;S.cmv=cm2;S.xcards=xc;S.ccol=cc;
+  }
+  function myIds(){return Object.keys(S.accounts).filter(function(k){return S.accounts[k].owner===S.viewer})}
+  function findByCard(num){
+    num=String(num).replace(/\D/g,'');S.lastRc=null;
+    for(var k in S.accounts){if(cardOf(k).number===num)return k}
+    for(var j in S.xcards){if(S.accounts[j]){var xs=S.xcards[j]||[],i;for(i=0;i<xs.length;i++)if(xs[i].num===num){S.lastRc={uid:j,id:xs[i].id};return j}}}
+    return null;
+  }
+  function mineLoan(l){return (l.acc||S.viewer)===S.uid}
+  function saveActive(id){S.uid=id;S.seen=null;S.spCnt=null;S.adjSeen=null;S.reqSeen=null;S.cardSel=null;try{if(id)localStorage.setItem('smb_acc',id);else localStorage.removeItem('smb_acc')}catch(e){}}
+  function resolveActive(){
+    var mine=myIds();
+    if(S.uid&&mine.indexOf(S.uid)>-1)return true;
+    S.uid=null;
+    var saved=null;try{saved=localStorage.getItem('smb_acc')}catch(e){}
+    if(saved&&mine.indexOf(saved)>-1){S.uid=saved;return true}
+    return false;
+  }
+  async function accUpdate(accId,fields){
+    var a=S.accounts[accId];if(!a)throw {code:'nothing'};
+    var ref=S.db.doc('accounts/'+a.owner);
+    if(a.legacy)await ref.update(fields);
+    else{var o={};o[accId]=fields;await ref.update({accs:o})}
+  }
+  async function removeAcc(accId){
+    var a=S.accounts[accId];if(!a)return;
+    var ref=S.db.doc('accounts/'+a.owner),snap=await ref.get();
+    if(!snap.exists)return;
+    var d=clone(snap.data());
+    if(a.legacy){['uid','nick','label','card','admin','staff','createdAt','pw'].forEach(function(f){delete d[f]})}
+    else if(d.accs){delete d.accs[accId]}
+    var left=(d.accs&&Object.keys(d.accs).length)||d.nick;
+    if(left)await ref.set(d);else await ref.delete();
+  }
+  function notify(){
+    if(!S.uid)return;
+    var ids={},k,l,i,id;
+    for(k in S.ledgers){l=sentOf(k);for(i=0;i<l.length;i++)if(l[i].to===S.uid&&k!==S.uid)ids[l[i].id]={amount:l[i].amount,from:k}}
+    if(S.seen){for(id in ids){if(!S.seen[id]){toast('Вам перевели '+money(ids[id].amount)+' от @'+nickOf(ids[id].from));if(!document.querySelector('.scrim:not([hidden])'))(function(rid){setTimeout(function(){if(!document.querySelector('.scrim:not([hidden])'))try{openReceipt(rid)}catch(e){}},400)})(id)}}}
+    var vme=S.accounts[S.uid],vk='smb_vn_'+S.uid;
+    try{
+      if(vme&&vme.verified&&!vme.admin){if(!localStorage.getItem(vk)){localStorage.setItem(vk,'1');toast('Ваш аккаунт верифицирован ✓ Рядом с ником теперь стоит галочка.')}}
+      else if(vme&&!vme.verified)localStorage.removeItem(vk);
+    }catch(e){}
+    var rs={};allLoansOf(S.uid).forEach(function(l){if(l.id)rs[l.id]=l.status||'approved'});
+    if(S.reqSeen){for(var rid2 in rs){if(S.reqSeen[rid2]&&S.reqSeen[rid2]!==rs[rid2]){
+      if(rs[rid2]==='approved')toast('Кредит одобрен! Деньги зачислены на счёт.');
+      else if(rs[rid2]==='declined')toast('Заявка на кредит отклонена.');
+      else if(rs[rid2]==='hold')toast('Заявка на кредит поставлена на ожидание.');
+    }}}
+    S.reqSeen=rs;
+    var aj={};(S.adj[S.uid]||[]).forEach(function(a){aj[a.id]=a});
+    if(S.adjSeen){for(var aid in aj){if(!S.adjSeen[aid])toast('Владелец списал '+money(Math.abs(aj[aid].amt))+(aj[aid].note?': '+aj[aid].note:'.'))}}
+    S.adjSeen=aj;
+    var sc=0,st=spStaff();S.sup.forEach(function(m){if(st?m.to==='support':m.to===S.uid)sc++});
+    if(S.spCnt!=null&&sc>S.spCnt&&S.tab!=='support')toast(st?'Новое сообщение в поддержку.':'Поддержка ответила вам.');
+    S.spCnt=sc;
+    S.seen=ids;
+  }
+  function refresh(){
+    rebuild();
+    if(allLoaded()){clearTimeout(bootT);resolveActive();notify()}
+    renderAll();
+  }
+
+  /* ---------- rendering ---------- */
+  function show(id){['v-boot','v-locked','v-banned','v-auth','v-main'].forEach(function(x){$(x).hidden=(x!==id)})}
+  function cardName(uid,id){if(id==='main')return 'Основная';var c=(S.xcards[uid]||[]).filter(function(x){return x.id===id})[0];return c?(c.name||'Карта'):'Удалённая карта'}
+  function txRow(t){
+    if(t.kind==='cmv'){
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:18px;background:var(--navy2)">⇄</span><div><div class="who">Между картами</div><div class="sub">'+esc(cardName(S.uid,t.from))+' → '+esc(cardName(S.uid,t.to))+' · '+when(t.ts)+'</div></div><div class="amt">'+t.amt.toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='game'&&t.crash){
+      var cd=t.delta,cs=!t.over?'Ракета улетела (раунд не завершён)':(cd>=0?'Забрали ×'+Number(t.mult).toFixed(2):'Улетела на ×'+Number(t.crashAt).toFixed(2));
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:20px;background:var(--navy2)">🚀</span><div><div class="who">Ракетка</div><div class="sub">'+cs+' · '+when(t.ts)+'</div></div><div class="amt '+(cd>0?'in">+':(cd<0?'out">−':'">'))+Math.abs(cd).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='game'&&t.slot){
+      var dl=t.delta;
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:20px;background:var(--navy2)">🎰</span><div><div class="who">Рулетка</div><div class="sub">'+esc((t.reels||[]).join(' '))+' · '+when(t.ts)+'</div></div><div class="amt '+(dl>0?'in">+':dl<0?'out">−':'">')+Math.abs(dl).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='buy'){
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:18px;background:var(--navy2)">✓</span><div><div class="who">Цвет галочки</div><div class="sub">'+esc((COLORS[t.item]||{}).n||'')+' · '+when(t.ts)+'</div></div><div class="amt out">−'+Math.abs(t.amt).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='adj'){
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:20px;background:var(--navy2)">−</span><div><div class="who">Списание владельцем</div><div class="sub">'+(t.note?esc(t.note)+' · ':'')+when(t.ts)+'</div></div><div class="amt out">−'+Math.abs(t.amt).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='bonus'){
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:18px;background:var(--navy2)">★</span><div><div class="who">Подписка Samarkand+</div><div class="sub">Ежедневный бонус · '+when(t.ts)+'</div></div><div class="amt in">+'+t.amt.toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='game'&&t.dice){
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:20px;background:var(--navy2)">🎲</span><div><div class="who">Кубик</div><div class="sub">Выбрали '+t.pick+', выпало '+t.roll+' · '+when(t.ts)+'</div></div><div class="amt '+(t.delta>0?'in">+':'out">−')+Math.abs(t.delta).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='game'){
+      var pos=t.delta>0;
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:18px;background:var(--navy2)">💣</span><div><div class="who">Бомбочки</div><div class="sub">'+(t.boom?'Бомба':'Забрали выигрыш')+' · бомб '+t.bombs+', клеток '+t.cells+' · '+when(t.ts)+'</div></div><div class="amt '+(pos?'in':'out')+'">'+(pos?'+':'−')+Math.abs(t.delta).toLocaleString('ru-RU')+' $</div></div>';
+    }
+    if(t.kind==='fx'){
+      var buy=t.side==='buy';
+      return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0"><span class="av" style="width:38px;height:38px;font-size:17px;background:var(--navy2)">'+SYM[t.cur]+'</span><div><div class="who">'+(buy?'Покупка ':'Продажа ')+CGEN[t.cur]+'</div><div class="sub">'+(buy?'+':'−')+fmtC(t.fx,t.cur)+' · курс '+fmtRate(t.rate)+' · '+when(t.ts)+'</div></div><div class="amt '+(buy?'out':'in')+'">'+(buy?'−':'+')+t.usd.toLocaleString('ru-RU')+' $</div></div>';
+    }
+    var nick=nickOf(t.other),sign=t.kind==='in'?'+':'−';
+    return '<div class="tx" data-tx="'+esc(t.id)+'" role="button" tabindex="0">'+avatar(nick,38)+'<div><div class="who">@'+esc(nick)+vmark(t.other)+'</div><div class="sub">'+(t.kind==='in'?'Входящий':'Исходящий')+' · '+when(t.ts)+(t.note?' · '+esc(t.note):'')+'</div></div><div class="amt '+t.kind+'">'+sign+t.amount.toLocaleString('ru-RU')+' $</div></div>';
+  }
+  function renderHome(){
+    var st=stats(),me=S.accounts[S.uid]||{},list=txs();
+    var inf=st.bal===Infinity,nm=me.label||me.nick||'';
+    var sc0=selCard(),shown=(inf||sc0.id==='main')?st.bal:Math.max(0,xbal(S.uid,sc0.id));
+    $('bal').textContent=inf?'∞':shown.toLocaleString('ru-RU');$('bal-u').textContent=inf?'без ограничений':('USD'+(sc0.id==='main'&&st.ex>0?' · всего '+st.total.toLocaleString('ru-RU'):''));
+    if($('reg-line'))$('reg-line').textContent='Аккаунт открыт: '+regDate(S.uid);
+    $('me-av').innerHTML=avatar(nm,34);$('me-nick').innerHTML='<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">@'+esc(nm)+'</span>'+vmark(S.uid)+rolePill(S.uid);
+    var cd=cardOf(S.uid),sc=selCard();
+    $('cardnum').textContent=fmtNum(sc.num);$('holder').textContent=nm.toUpperCase();
+    $('net').className='net'+(sc.net&&sc.net!=='visa'?' mcard':'');$('net').textContent=NET_LBL[sc.net]||'';
+    $('net-pick').hidden=!!cd.network;
+    applyCardStyle($('t-home').querySelector('.card'),sc.color);
+    renderCardBar();
+    $('adm-open').hidden=!!me.admin;
+    $('home-warn').hidden=!isBlocked(S.uid);
+    $('recent').innerHTML=list.length?list.slice(0,4).map(txRow).join(''):'<div class="empty">Операций пока нет. Отправьте первый перевод другу.</div>';
+  }
+  /* ---------- карты и тема ---------- */
+  var CARD_COLORS=['#34459A','#111827','#0F766E','#B4332E','#7C3AED','#D97706','#DB2777','#F4F4F5'],MAX_CARDS=5;
+  function hexOk(c){return /^#[0-9a-fA-F]{6}$/.test(c||'')}
+  function shade(hex,k){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;function f(v){return Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)))}return '#'+[f(r),f(g),f(b)].map(function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+  function lum(hex){var n=parseInt(hex.slice(1),16);return (0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255}
+  function applyCardStyle(el,color){
+    if(!el)return;
+    if(hexOk(color)){
+      var light=lum(color)>.62;
+      el.style.background='linear-gradient(145deg,'+shade(color,-.28)+' 0%,'+color+' 120%)';
+      el.style.setProperty('--card-ink',light?'#14193A':'#F4F6FF');el.style.setProperty('--card-muted',light?'#4B5578':'#AEB6DA');
+      el.style.color=light?'#14193A':'#F4F6FF';
+    }else{el.style.background='';el.style.removeProperty('--card-ink');el.style.removeProperty('--card-muted');el.style.color=''}
+  }
+  function allCards(uid){
+    var c=cardOf(uid),arr=[{id:'main',net:c.network,num:c.number,color:S.ccol[uid]||null,name:'Основная'}];
+    (S.xcards[uid]||[]).forEach(function(x){arr.push({id:x.id,net:x.net,num:x.num,color:x.color||null,name:x.name||'Карта'})});
+    return arr;
+  }
+  function selCard(){var l=allCards(S.uid),i;for(i=0;i<l.length;i++)if(l[i].id===S.cardSel)return l[i];return l[0]}
+  function mvBal(id){var ow=S.accounts[S.uid];if(ow&&ow.admin)return Infinity;return id==='main'?stats().bal:Math.max(0,xbal(S.uid,id))}
+  function openMove(){
+    var l=allCards(S.uid),sc=selCard(),opts=l.map(function(c){var b=mvBal(c.id);return '<option value="'+esc(c.id)+'">'+esc(c.name)+' · '+(b===Infinity?'∞':b.toLocaleString('ru-RU'))+' $</option>'}).join('');
+    $('mv-from').innerHTML=opts;$('mv-to').innerHTML=opts;
+    $('mv-from').value='main';
+    var other=l.filter(function(c){return c.id!=='main'})[0];$('mv-to').value=sc.id!=='main'?sc.id:(other?other.id:'main');
+    $('mv-amt').value='';$('mv-err').textContent='';$('scrim12').hidden=false;
+  }
+  async function doMove(){
+    var err=$('mv-err');err.textContent='';
+    var f=$('mv-from').value,t=$('mv-to').value,amt=parseInt($('mv-amt').value.replace(/\D/g,''),10)||0;
+    if(f===t){err.textContent='Выберите две разные карты.';return}
+    if(amt<1){err.textContent='Введите сумму больше нуля.';return}
+    var have=mvBal(f);
+    if(amt>have){err.textContent='На этой карте только '+money(have)+'.';return}
+    if(S.busy)return;S.busy=true;$('mv-go').disabled=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.cmv=Array.isArray(d.cmv)?d.cmv.slice():[];
+      if(d.cmv.length>=MAX_OPS)throw {code:'limit'};
+      d.cmv.push({id:rid(),acc:S.uid,ts:Date.now(),from:f,to:t,amt:amt});
+      await ref.set(d);$('scrim12').hidden=true;toast('Переведено '+money(amt)+' между картами.');
+    }catch(e){err.textContent=errText(e)}
+    finally{S.busy=false;$('mv-go').disabled=false;renderAll()}
+  }
+  function renderCardBar(){
+    var l=allCards(S.uid),sc=selCard(),h='';
+    if(l.length>1)h+=l.map(function(c){return '<button type="button" class="chip" data-cs="'+esc(c.id)+'" aria-pressed="'+(c.id===sc.id)+'">'+esc(c.name)+'</button>'}).join('');
+    h+='<button type="button" class="chip" id="cd-edit" aria-label="Оформление карты">🎨 Цвет</button>';
+    if(l.length>1)h+='<button type="button" class="chip" id="cd-move">⇄ Между картами</button>';
+    if(l.length<MAX_CARDS)h+='<button type="button" class="chip" id="cd-new">＋ Новая карта</button>';
+    $('cd-bar').innerHTML=h;
+  }
+  function csDraw(){
+    var isNew=S.csMode==='new',main=S.csId==='main';
+    $('cs-t').textContent=isNew?'Новая карта':'Оформление карты';
+    $('cs-nets-wrap').style.display=isNew?'':'none';
+    $('cs-name-wrap').style.display=(isNew||!main)?'':'none';
+    $('cs-nets').innerHTML=NETS.map(function(n){return '<button type="button" class="chip" data-csn="'+n+'" aria-pressed="'+(S.csNet===n)+'">'+netName(n)+'</button>'}).join('');
+    $('cs-cols').innerHTML=CARD_COLORS.map(function(c){return '<button type="button" data-csc="'+c+'" aria-label="Цвет '+c+'" aria-pressed="'+(S.csColor===c)+'" style="width:36px;height:36px;border-radius:50%;background:'+c+';border:2px solid '+(S.csColor===c?'var(--accent)':'var(--line)')+'"></button>'}).join('');
+    if(hexOk(S.csColor))$('cs-color').value=S.csColor;
+    $('cs-save').textContent=isNew?'Выпустить карту':'Сохранить';
+    $('cs-del').style.display=(!isNew&&!main)?'':'none';
+    $('cs-reset').style.display=isNew?'none':'';
+    var sc=isNew?{net:S.csNet,num:'•••• •••• •••• ••••'}:allCards(S.uid).filter(function(c){return c.id===S.csId})[0]||{};
+    $('cs-pnum').textContent=isNew?sc.num:fmtNum(sc.num||'');$('cs-pnet').textContent=NET_LBL[isNew?S.csNet:sc.net]||'';
+    applyCardStyle($('cs-prev'),S.csColor);
+  }
+  function csOpen(mode){
+    var sc=selCard();S.csMode=mode;$('cs-err').textContent='';
+    if(mode==='new'){S.csId=null;S.csNet='visa';S.csColor=CARD_COLORS[0];$('cs-name').value=''}
+    else{S.csId=sc.id;S.csColor=sc.color;$('cs-name').value=sc.id==='main'?'':sc.name}
+    csDraw();$('scrim11').hidden=false;
+  }
+  async function csSave(){
+    var err=$('cs-err');err.textContent='';
+    if(S.busy||!S.uid)return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};d.cards=d.cards||{};d.ccol=d.ccol||{};
+      var list=Array.isArray(d.cards[S.uid])?d.cards[S.uid].slice():[];
+      var col=hexOk(S.csColor)?S.csColor:null,name=$('cs-name').value.trim().slice(0,16);
+      if(S.csMode==='new'){
+        if(allCards(S.uid).length>=MAX_CARDS)throw {code:'limit'};
+        var id=rid();
+        list.push({id:id,net:S.csNet,num:genNumber(S.csNet,S.uid),color:col,name:name||'Карта '+(list.length+2),ts:Date.now()});
+        d.cards[S.uid]=list;S.cardSel=id;
+        toast('Выпущена карта '+netName(S.csNet)+'.');
+      }else if(S.csId==='main'){
+        if(col)d.ccol[S.uid]=col;else delete d.ccol[S.uid];
+        toast('Цвет карты сохранён.');
+      }else{
+        list=list.map(function(x){if(x.id===S.csId){x.color=col;if(name)x.name=name}return x});
+        d.cards[S.uid]=list;toast('Карта сохранена.');
+      }
+      await ref.set(d);$('scrim11').hidden=true;
+    }catch(e){err.textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  async function csDelete(){
+    if(S.busy||S.csMode!=='edit'||S.csId==='main')return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};d.cards=d.cards||{};
+      d.cards[S.uid]=(Array.isArray(d.cards[S.uid])?d.cards[S.uid]:[]).filter(function(x){return x.id!==S.csId});
+      await ref.set(d);S.cardSel=null;$('scrim11').hidden=true;toast('Карта удалена. Переводы на её номер больше не пройдут.');
+    }catch(e){$('cs-err').textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  var THEMES=['auto','light','dark'],THEME_ICON={auto:'◐',light:'☀',dark:'☾'},THEME_NAME={auto:'Тема: как в телефоне',light:'Светлая тема',dark:'Тёмная тема'};
+  function themeGet(){try{var t=localStorage.getItem('smb_theme');return THEMES.indexOf(t)>-1?t:'auto'}catch(e){return 'auto'}}
+  function themeApply(t){
+    var r=document.documentElement;
+    if(t==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',t);
+    var b=document.getElementById('theme-btn');if(b){b.textContent=THEME_ICON[t];b.title=THEME_NAME[t]}
+  }
+  function themeCycle(){var t=THEMES[(THEMES.indexOf(themeGet())+1)%3];try{localStorage.setItem('smb_theme',t)}catch(e){}themeApply(t);toast(THEME_NAME[t])}
+  var SUB_DAYS=31,SUB_BONUS=25000,claimTried={};
+  function dayKey(ts){var d=new Date(ts);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()}
+  function renderSub(){
+    var me=S.accounts[S.uid]||{},box=$('sub-panel');
+    if(!box)return;
+    box.hidden=!!me.admin;
+    if(me.admin)return;
+    var sb=S.sub[S.uid],list=S.bonus[S.uid]||[],last=list.length?list[list.length-1].ts:0,got=last&&dayKey(last)===dayKey(Date.now());
+    $('sub-txt').textContent=(sb?'Действует до '+day(sb.end)+' (31 день, продлевается бесплатно). ':'')+'Заходите в банк каждый день и получайте +'+SUB_BONUS.toLocaleString('ru-RU')+' $. '+(got?'Сегодняшний бонус уже получен.':'Бонус придёт при входе.');
+  }
+  async function claimBonus(){
+    var uid=S.uid,me=S.accounts[uid];
+    if(!uid||!me||me.admin||claimTried[uid]||S.busy)return;
+    claimTried[uid]=1;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{},now=Date.now();
+      d.sub=d.sub||{};d.bonus=Array.isArray(d.bonus)?d.bonus:[];
+      var s0=d.sub[uid];
+      if(!s0||now>s0.end)d.sub[uid]={start:now,end:now+SUB_DAYS*86400000};
+      var mine=d.bonus.filter(function(b){return (b.acc||S.viewer)===uid}),last=mine.length?mine[mine.length-1].ts:0;
+      if(last&&dayKey(last)===dayKey(now)){
+        if(!s0||now>s0.end)await ref.set(d);
+        return;
+      }
+      d.bonus.push({id:rid(),acc:uid,amt:SUB_BONUS,ts:now});
+      await ref.set(d);
+      toast('Подписка Samarkand+: +'+SUB_BONUS.toLocaleString('ru-RU')+' $ за вход.');
+    }catch(e){claimTried[uid]=0;if(e&&e.code!=='unavailable')toast(errText(e))}
+  }
+  function renderHist(){
+    var q=$('hq').value.trim().toLowerCase(),list=txs().filter(function(t){
+      if(S.hf!=='all'&&t.kind!==S.hf)return false;
+      if(t.kind==='fx'||t.kind==='game'||t.kind==='bonus'||t.kind==='adj'||t.kind==='buy'||t.kind==='cmv')return !q;
+      return !q||nickOf(t.other).toLowerCase().indexOf(q)>-1;
+    });
+    $('hist').innerHTML=list.length?list.map(txRow).join(''):'<div class="empty">'+(txs().length?'По этому фильтру ничего нет.':'Здесь появятся все ваши переводы.')+'</div>';
+  }
+  function renderRecipient(){
+    var d=$('to-card').value.replace(/\D/g,''),w=$('to-who'),k;
+    S.sel=null;
+    if(d.length<16){w.textContent=d.length?'Введите все 16 цифр, сейчас '+d.length+'.':'Введите 16 цифр с карты друга.'}
+    else{
+      k=findByCard(d);
+      if(!k)w.textContent='Карта не найдена. Проверьте номер.';
+      else if(k===S.uid)w.textContent='Это ваша карта. Введите карту друга.';
+      else{S.sel=k;w.innerHTML='Получатель: @'+esc(nickOf(k))+vmark(k)}
+    }
+    var seen={},list=[];
+    txs().forEach(function(t){if(t.kind==='out'&&S.accounts[t.other]&&!seen[t.other]&&list.length<4){seen[t.other]=1;list.push(t.other)}});
+    $('recent-to').innerHTML=list.map(function(u){return '<button type="button" class="chip" data-rc="'+esc(u)+'">@'+esc(nickOf(u))+'</button>'}).join('');
+  }
+  function onCardInput(){var el=$('to-card');el.value=fmtNum(el.value.slice(0,19));renderRecipient();renderSendUI()}
+  function amountVal(){var v=parseInt($('amt').value.replace(/\D/g,''),10);return isNaN(v)?0:v}
+  function renderSendUI(){
+    var st=stats(),a=amountVal(),err='',blocked=isBlocked(S.uid);
+    $('avail').textContent=st.bal===Infinity?'Доступно: без ограничений':'Доступно: '+money(st.bal);
+    if(blocked)err='Аккаунт заблокирован из-за просрочки по кредиту. Погасите платёж во вкладке «Кредит».';
+    else if(a>st.bal)err='Не хватает долларов на счёте';
+    $('send-err').textContent=err;
+    $('send-go').disabled=!(S.sel&&a>=1&&a<=st.bal&&!S.busy&&!blocked);
+  }
+
+  function instRow(L,x,now){
+    var st=x.paidAt?'<span class="pill ok">Оплачен '+day(x.paidAt)+'</span>':(x.due<now?'<span class="pill bad">Просрочен</span>':'<span class="pill">Ожидает</span>');
+    return '<div class="inst"><div><div class="t">Платёж '+x.n+' из '+L.inst.length+'</div><div class="s">Срок '+day(x.due)+'</div></div><div style="text-align:right"><div class="amt">'+x.amt.toLocaleString('ru-RU')+' $</div>'+st+'</div></div>';
+  }
+  function renderTake(){
+    var me=S.accounts[S.uid]||{},a=parseInt($('c-amt').value.replace(/\D/g,''),10)||0,ok=a>=MIN_LOAN&&a<=MAX_LOAN,blocked=isBlocked(S.uid);
+    document.querySelectorAll('#c-terms .chip').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.term)===S.term))});
+    if(ok){var p=makePlan(a,S.term);$('c-prev').textContent='Вернуть '+money(p.total)+' (+'+Math.round(RATE*100)+'%) за '+termLabel(S.term)+', '+p.inst.length+' '+payWord(p.inst.length)+' по '+money(p.inst[0].amt)+(p.inst.length>1?' и последний '+money(p.inst[p.inst.length-1].amt):'')+'.'}
+    else $('c-prev').textContent=a?'Сумма кредита от '+MIN_LOAN+' до '+MAX_LOAN.toLocaleString('ru-RU')+' $.':'Введите сумму, чтобы увидеть график платежей.';
+    $('c-err').textContent=blocked?'Аккаунт заблокирован, новый кредит недоступен.':'';
+    $('c-go').disabled=!(ok&&!blocked&&!S.busy);
+  }
+  function renderCredit(){
+    var me=S.accounts[S.uid]||{},now=Date.now(),L=activeLoan(S.uid),od=overdueOf(S.uid,now),loans=loansOf(S.uid);
+    var ban=$('c-banner');
+    if(od.length&&!me.admin){var oldest=od.reduce(function(m,x){return Math.min(m,x.inst.due)},Infinity),sum=od.reduce(function(s,x){return s+x.inst.amt},0);
+      ban.hidden=false;ban.innerHTML='<b>Аккаунт заблокирован.</b> Просрочено '+money(sum)+' уже '+ago(now-oldest)+'. Переводы и новые кредиты закрыты, оплатить платёж можно ниже. Удалять аккаунт или нет, решает администратор.';
+    }else ban.hidden=true;
+
+    if(L){
+      var paid=L.inst.reduce(function(s,x){return s+(x.paidAt?x.amt:0)},0),next=unpaid(L)[0];
+      $('c-active').innerHTML='<section class="panel"><div class="row-h"><h3>Действующий кредит</h3><span class="pill '+(od.length?'bad':'')+'">'+(od.length?'Есть просрочка':'Идёт')+'</span></div>'+
+        '<div><div class="big" style="font-size:22px">'+L.total.toLocaleString('ru-RU')+' $</div><div class="hint">к возврату, взято '+money(L.principal)+' '+day(L.takenAt)+'</div></div>'+
+        '<div class="bar" role="img" aria-label="Выплачено '+paid+' из '+L.total+'"><i style="width:'+Math.round(paid/L.total*100)+'%"></i></div>'+
+        '<div>'+L.inst.map(function(x){return instRow(L,x,now)}).join('')+'</div>'+
+        '<button class="btn primary block" type="button" data-act="pay">Оплатить '+money(next.amt)+'</button></section>';
+    }else $('c-active').innerHTML='';
+    var rq=openReq(S.uid),lastReq=requestsOf(S.uid).slice(-1)[0],creq=$('c-req');
+    if(rq){
+      creq.hidden=false;
+      creq.innerHTML='<div class="row-h"><h3>Заявка на кредит</h3><span class="pill">'+(rq.status==='hold'?'На ожидании':'На рассмотрении')+'</span></div><div class="hint">'+money(rq.principal)+' на '+termLabel(rq.days)+', вернуть '+money(rq.total)+'. '+(rq.status==='hold'?'Администрация поставила заявку на ожидание, решение придёт позже.':'Администрация скоро рассмотрит заявку.')+'</div>';
+    }else if(lastReq&&lastReq.status==='declined'&&!L&&(!loans.length||loans[loans.length-1].takenAt<lastReq.decidedAt)){
+      creq.hidden=false;
+      creq.innerHTML='<div class="row-h"><h3>Заявка отклонена</h3><span class="pill bad">Отказано</span></div><div class="hint">Кредит '+money(lastReq.principal)+' не одобрен '+when(lastReq.decidedAt)+'. Можно подать новую заявку.</div>';
+    }else creq.hidden=true;
+    $('c-take').hidden=!!L||!!me.admin||!!rq;
+    if(me.admin&&!L)$('c-active').innerHTML='<div class="panel"><p class="muted">У администратора безлимитный баланс, кредит ему не нужен.</p></div>';
+
+    $('c-loans').innerHTML=loans.length?loans.slice().reverse().map(function(Lx){
+      var left=unpaid(Lx).length,late=Lx.inst.some(function(x){return !x.paidAt&&x.due<now});
+      var pill=!left?'<span class="pill ok">Закрыт</span>':(late?'<span class="pill bad">Просрочен</span>':'<span class="pill">Идёт</span>');
+      return '<div class="inst"><div><div class="t">'+money(Lx.principal)+' на '+termLabel(Lx.days)+'</div><div class="s">Взят '+when(Lx.takenAt)+' · вернуть '+money(Lx.total)+'</div></div><div>'+pill+'</div></div>';
+    }).join(''):'<div class="empty">Вы ещё не брали кредит.</div>';
+
+    var rows=[];
+    loans.forEach(function(Lx){Lx.inst.forEach(function(x){
+      if(x.paidAt)rows.push({ts:x.paidAt,html:'<div class="inst"><div><div class="t">Платёж '+x.n+' из '+Lx.inst.length+'</div><div class="s">Оплачен '+when(x.paidAt)+(x.paidAt>x.due?' · с опозданием':' · вовремя')+'</div></div><div class="amt out">−'+x.amt.toLocaleString('ru-RU')+' $</div></div>'});
+      else if(x.due<now)rows.push({ts:x.due,html:'<div class="inst"><div><div class="t">Платёж '+x.n+' из '+Lx.inst.length+'</div><div class="s">Не оплачен, срок был '+when(x.due)+'</div></div><div><span class="pill bad">Просрочен</span></div></div>'});
+    })});
+    rows.sort(function(a,b){return b.ts-a.ts});
+    $('c-pays').innerHTML=rows.length?rows.map(function(r){return r.html}).join(''):'<div class="empty">Платежей пока не было.</div>';
+    renderTake();
+  }
+  function renderAdmin(){
+    var me=S.accounts[S.uid]||{},now=Date.now();
+    $('tab-admin').hidden=!isStaff(me);
+    if(!isStaff(me)){if(S.tab==='admin')go('home');return}
+    $('a-staff-box').hidden=!me.admin;
+    document.querySelectorAll('#t-admin [data-perm]').forEach(function(el){el.hidden=!can(S.uid,el.dataset.perm)});
+    if(me.admin){
+      var staff=Object.keys(S.accounts).filter(function(u){return S.accounts[u].staff&&!S.accounts[u].admin});
+      $('a-staff').innerHTML=staff.length?staff.map(function(u){var n=nickOf(u),cur=lvOf(S.accounts[u]);
+        return '<div style="display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--line)"><div class="cardrow" style="border:0;padding:0">'+avatar(n,38)+'<div><div style="font-weight:600">@'+esc(n)+'</div><div class="sub">'+LEVELS[cur].n+' уровень</div></div><button class="btn ghost sm" type="button" data-unstaff="'+esc(u)+'">Убрать</button></div><div class="chips sm">'+Object.keys(LEVELS).map(function(l){return '<button type="button" class="chip" data-stlv="'+esc(u)+'|'+l+'" aria-pressed="'+(l===cur)+'">'+LEVELS[l].n+'</button>'}).join('')+'</div></div>';
+      }).join(''):'<div class="empty">Других администраторов нет.</div>';
+      $('a-staff-lv').innerHTML=Object.keys(LEVELS).map(function(l){return '<button type="button" class="chip" data-newlv="'+l+'" aria-pressed="'+(l===(S.stLv||'medium'))+'">'+LEVELS[l].n+'</button>'}).join('');
+      $('a-staff-lvhint').textContent=LEVELS[S.stLv||'medium'].d;
+    }
+    var reqs=[];
+    Object.keys(S.credits).forEach(function(u){requestsOf(u).forEach(function(r){if(r.status==='pending'||r.status==='hold')reqs.push({uid:u,r:r})})});
+    reqs.sort(function(a,b){return a.r.takenAt-b.r.takenAt});
+    $('a-req').innerHTML=reqs.length?reqs.map(function(x){var n=nickOf(x.uid),r=x.r;
+      return '<div style="display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--line)"><div class="cardrow" style="border:0;padding:0">'+avatar(n,38)+'<div><div class="who" style="font-weight:600">@'+esc(n)+vmark(x.uid)+'</div><div class="sub">'+money(r.principal)+' на '+termLabel(r.days)+' · вернуть '+money(r.total)+'</div><div class="sub">Подана '+when(r.takenAt)+'</div></div>'+(r.status==='hold'?'<span class="pill">Ожидание</span>':'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary sm" type="button" data-loan="'+esc(r.id)+'|approved">Одобрить</button><button class="btn ghost sm" type="button" data-loan="'+esc(r.id)+'|hold"'+(r.status==='hold'?' disabled':'')+'>Ожидание</button><button class="btn danger sm" type="button" data-loan="'+esc(r.id)+'|declined">Отказать</button></div></div>';
+    }).join(''):'<div class="empty">Новых заявок нет.</div>';
+    var ab=$('ad-badge');if(ab){var nrq=can(S.uid,'credit')?reqs.length:0;ab.hidden=!nrq;ab.textContent=String(nrq)}
+    var rr=rates();
+    if(document.activeElement!==$('a-rub'))$('a-rub').value=String(rr.rub);
+    if(document.activeElement!==$('a-eur'))$('a-eur').value=String(rr.eur);
+    var bl=[],ac=[],k,uids=Object.keys(S.accounts).sort(function(a,b){return S.accounts[a].nick.localeCompare(S.accounts[b].nick)});
+    $('a-cards').innerHTML=uids.map(function(u){
+      var c=cardOf(u),n=nickOf(u);
+      return '<div class="cardrow">'+avatar(n,38)+'<div><div class="who" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@'+esc(n)+vmark(u)+'</div><div class="sub mono">'+fmtNum(c.number)+' · '+netName(c.network)+'</div><div class="sub">Регистрация: '+regDate(u)+'</div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn ghost sm" type="button" data-card="'+esc(u)+'">Изменить</button>'+((S.accounts[u].admin||(S.accounts[u].staff&&!me.admin)||!can(S.uid,'delete'))?'':'<button class="btn danger sm" type="button" data-del="'+esc(u)+'">Удалить</button>')+'</div></div>';
+    }).join('');
+    for(k in S.accounts){
+      if(S.accounts[k].admin)continue;
+      var od=overdueOf(k,now),L=activeLoan(k);
+      if(od.length)bl.push({uid:k,od:od});
+      if(L)ac.push({uid:k,L:L});
+    }
+    $('a-blocked').innerHTML=bl.length?bl.map(function(b){
+      var oldest=b.od.reduce(function(m,x){return Math.min(m,x.inst.due)},Infinity),sum=b.od.reduce(function(s,x){return s+x.inst.amt},0),n=nickOf(b.uid);
+      return '<div class="tx">'+avatar(n,38)+'<div><div class="who">@'+esc(n)+'</div><div class="sub">Долг '+money(sum)+' · просрочка '+ago(now-oldest)+'</div></div>'+((S.accounts[b.uid].staff&&!me.admin)?'<span class="pill">Админ</span>':'<button class="btn danger sm" type="button" data-del="'+esc(b.uid)+'">Удалить</button>')+'</div>';
+    }).join(''):'<div class="empty">Просроченных платежей нет.</div>';
+    $('a-loans').innerHTML=ac.length?ac.map(function(a){
+      var n=nickOf(a.uid),rest=unpaid(a.L).reduce(function(s,x){return s+x.amt},0),next=unpaid(a.L)[0];
+      return '<div class="tx">'+avatar(n,38)+'<div><div class="who">@'+esc(n)+'</div><div class="sub">Остаток '+money(rest)+' · ближайший платёж '+day(next.due)+'</div></div><span class="pill'+(next.due<now?' bad':'')+'">'+(next.due<now?'Просрочен':'Идёт')+'</span></div>';
+    }).join(''):'<div class="empty">Действующих кредитов нет.</div>';
+  }
+  function renderAll(){
+    if(!allLoaded())return;
+    var mine=myIds();
+    if(!mine.length&&S.bans[S.viewer]){show('v-banned');return}
+    if(!resolveActive()){show('v-auth');renderAuth(mine);return}
+    show('v-main');renderHome();renderWallets();renderHist();renderRecipient();renderSendUI();renderCredit();renderAdmin();renderSub();renderColors();renderSupport();claimBonus();renderGameSetup();
+  }
+  function renderAuth(mine){
+    if(!mine.length)S.auth='register';
+    document.querySelectorAll('#auth-tabs button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.auth===S.auth))});
+    $('auth-tabs').hidden=!mine.length;
+    $('f-login').hidden=S.auth!=='login';
+    $('f-onboard').hidden=S.auth!=='register';
+    $('reg-intro').hidden=S.auth!=='register';
+    if(S.auth==='login'){
+      if(!S.lacc||mine.indexOf(S.lacc)<0)S.lacc=mine[0];
+      $('l-accs').innerHTML=mine.map(function(k){var n=nickOf(k);return '<button type="button" class="chip" data-lacc="'+esc(k)+'" aria-pressed="'+(k===S.lacc)+'">@'+esc(n)+'</button>'}).join('');
+      var a=S.accounts[S.lacc];
+      $('l-pass-w').hidden=!(a&&(a.admin||(a.pw&&a.pw.h)));
+    }
+  }
+  function go(tab){
+    S.tab=tab;
+    ['home','send','qr','credit','hist','admin','done','game','dice','slots','crash','support'].forEach(function(t){$('t-'+t).hidden=(t!==tab)});
+    document.querySelectorAll('.tab').forEach(function(b){if(b.dataset.go===(tab==='done'?'send':(tab==='qr'||tab==='game'||tab==='dice'||tab==='slots'||tab==='crash')?'home':tab==='support'?'support':tab))b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+    window.scrollTo(0,0);
+    if(tab==='dice')renderDice();
+    if(tab==='slots')renderSlots();
+    if(tab==='crash')renderCrash();
+    if(tab==='support'){drawChat(true);if(typeof renderSupport==='function')renderSupport()}
+  }
+
+  /* ---------- actions ---------- */
+  var ERR={insufficient:'Не хватает средств на счёте.',limit:'Лимит записей исчерпан, дальше нельзя.',quota_exceeded:'Хранилище заполнено, сообщите владельцу банка.',invalid_argument:'У вашей учётной записи нет права записи. Попросите владельца дать вам доступ редактора.',resource_exhausted:'Слишком часто, подождите несколько секунд.',unavailable:'Нет связи с хранилищем, попробуйте ещё раз.',blocked:'Аккаунт заблокирован из-за просрочки по кредиту.',has_loan:'Сначала погасите действующий кредит.',nothing:'Платежей к оплате нет.',used:'Этот QR-код уже оплачен.',self:'Нельзя перевести самому себе.'};
+  function errText(e){return ERR[e&&e.code]||'Не получилось. Попробуйте ещё раз.'}
+
+  async function openAccount(ev){
+    ev.preventDefault();
+    var nick=$('nick').value.trim(),lower=nick.toLowerCase(),pass=$('reg-pass').value,err=$('nick-err');
+    if(!/^[a-z0-9_]{3,16}$/.test(lower)){err.textContent='Ник: 3–16 символов, латиница, цифры и «_».';return}
+    if(lower===ADMIN_NICK){err.textContent='Этот ник зарезервирован.';return}
+    if(pass.length<4){err.textContent='Пароль: минимум 4 символа.';return}
+    if(Object.keys(S.accounts).some(function(k){return S.accounts[k].nick===lower})){err.textContent='Ник «'+nick+'» уже занят, выберите другой.';return}
+    $('nick-go').disabled=true;err.textContent='';
+    try{
+      var ref=S.db.doc('handles/'+lower);
+      var got=await ref.acquire({holder:S.viewer,ttlMs:5000});
+      if(!got.acquired){err.textContent='Этот ник сейчас занимают, попробуйте через пару секунд.';return}
+      var h=await ref.get();
+      if(h.exists&&h.data().uid!==S.viewer){err.textContent='Ник «'+nick+'» уже занят, выберите другой.';return}
+      var id='a'+rid();
+      var pw={h:await hashPw(pass,'smb:'+id)};
+      await ref.set({uid:S.viewer,acc:id});
+      var dref=S.db.doc('accounts/'+S.viewer),snap=await dref.get();
+      var data=snap.exists?clone(snap.data()):{};
+      data.accs=data.accs||{};
+      data.accs[id]={nick:lower,label:nick,createdAt:Date.now(),pw:pw,card:{network:S.net,number:genNumber(S.net,id)}};
+      await dref.set(data);
+      $('nick').value='';$('reg-pass').value='';
+      S.auth='login';saveActive(id);go('home');renderAll();
+      toast('Счёт открыт. На нём '+money(START)+'.');
+    }catch(e){err.textContent=errText(e)}
+    finally{$('nick-go').disabled=false}
+  }
+  async function doLogin(ev){
+    ev.preventDefault();
+    var err=$('l-err'),a=S.accounts[S.lacc];err.textContent='';
+    if(!a||a.owner!==S.viewer){err.textContent='Выберите аккаунт.';return}
+    $('l-go').disabled=true;
+    try{
+      var pw=$('l-pass').value,ok=true;
+      if(a.admin)ok=await checkPw(pw);
+      else if(a.pw&&a.pw.h)ok=(await hashPw(pw,'smb:'+S.lacc))===a.pw.h;
+      if(!ok){err.textContent='Неверный пароль.';return}
+      $('l-pass').value='';saveActive(S.lacc);go('home');renderAll();
+    }catch(e){err.textContent='Браузер не поддерживает проверку пароля.'}
+    finally{$('l-go').disabled=false}
+  }
+
+  async function hashPw(pw,salt){
+    var enc=new TextEncoder();
+    var key=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveBits']);
+    var bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:enc.encode(salt),iterations:100000},key,256);
+    return Array.from(new Uint8Array(bits)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+  }
+  async function checkPw(pw){return PW_HASHES.indexOf(await hashPw(pw,SALT))>-1}
+  function openAdmin(){$('adm-err').textContent='';$('adm-pass').value='';$('scrim2').hidden=false;$('adm-login').focus()}
+  function closeAdmin(){$('scrim2').hidden=true;$('adm-pass').value=''}
+  async function adminLogin(ev){
+    ev.preventDefault();
+    var err=$('adm-err'),login=$('adm-login').value.trim().toLowerCase(),pw=$('adm-pass').value;
+    err.textContent='';
+    var env=window.SMB_ENV;
+    if(env&&!(env.inTelegram&&env.tgUser&&String(env.tgUser.username||'').toLowerCase()===ADMIN_NICK)){err.textContent='Вход администратора доступен только из Telegram-аккаунта @'+ADMIN_LABEL+'.';return}
+    $('adm-go').disabled=true;
+    try{
+      var ok=false;
+      try{ok=(login===ADMIN_NICK)&&await checkPw(pw)}catch(e){err.textContent='Браузер не поддерживает проверку пароля.';return}
+      if(!ok){err.textContent='Неверный логин или пароль.';return}
+      var ref=S.db.doc('handles/'+ADMIN_NICK);
+      var got=await ref.acquire({holder:S.viewer,ttlMs:5000});
+      if(!got.acquired){err.textContent='Попробуйте ещё раз через пару секунд.';return}
+      var h=await ref.get();
+      if(h.exists&&h.data().uid&&h.data().uid!==S.viewer){err.textContent='Этот аккаунт уже привязан к другому профилю Claude.';return}
+      var admId=null,k;
+      for(k in S.accounts){if(S.accounts[k].owner===S.viewer&&S.accounts[k].admin)admId=k}
+      if(!admId){
+        admId='adm';
+        await ref.set({uid:S.viewer,acc:admId});
+        var dref=S.db.doc('accounts/'+S.viewer),snap=await dref.get();
+        var data=snap.exists?clone(snap.data()):{};
+        data.accs=data.accs||{};
+        data.accs[admId]={nick:ADMIN_NICK,label:ADMIN_LABEL,admin:true,createdAt:Date.now(),card:{network:'visa',number:genNumber('visa',admId)}};
+        await dref.set(data);
+      }
+      saveActive(admId);closeAdmin();go('home');renderAll();
+      toast('Вы вошли как '+ADMIN_LABEL+'. Баланс без ограничений.');
+    }catch(e){err.textContent=errText(e)}
+    finally{$('adm-go').disabled=false;$('adm-pass').value=''}
+  }
+
+  /* ---------- валюты ---------- */
+  function renderWallets(){
+    var adm=!!(S.accounts[S.uid]||{}).admin,st=stats(),r=rates();
+    function row(sym,name,val){return '<div class="cardrow"><span class="av" style="width:38px;height:38px;font-size:17px;background:var(--navy2)">'+sym+'</span><div><div style="font-weight:600">'+name+'</div></div><div class="amt">'+val+'</div></div>'}
+    $('wallets').innerHTML=row('$','Доллары',adm?'∞ $':st.bal.toLocaleString('ru-RU')+' $')+row('₽','Рубли',adm?'∞ ₽':fmtC(wallet('rub'),'rub'))+row('€','Евро',adm?'∞ €':fmtC(wallet('eur'),'eur'));
+    $('rates-line').textContent='Курс: 1 $ = '+fmtRate(r.rub)+' ₽ = '+fmtRate(r.eur)+' €. Комиссия обмена '+Math.round(FEE*100)+'%. Курсы игровые, их задаёт администратор.';
+  }
+  function fxCalc(){
+    var usd=parseInt($('x-amt').value.replace(/\D/g,''),10)||0,rate=rates()[S.xCur],buy=S.xSide==='buy',base=usd*rate*100;
+    /* комиссия 3%: при покупке получаете на 3% меньше, при продаже отдаёте на 3% больше */
+    return {usd:usd,rate:rate,fx:buy?Math.round(base*(1-FEE)):Math.ceil(base/(1-FEE)),buy:buy,admin:!!(S.accounts[S.uid]||{}).admin};
+  }
+  function renderFx(){
+    document.querySelectorAll('#x-side button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.xside===S.xSide))});
+    document.querySelectorAll('#x-cur .chip').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.xcur===S.xCur))});
+    var c=fxCalc(),cur=S.xCur,st=stats(),err='';
+    $('x-prev').textContent=c.usd?(c.buy?'Отдадите '+money(c.usd)+', получите '+fmtC(c.fx,cur):'Отдадите '+fmtC(c.fx,cur)+', получите '+money(c.usd))+' по курсу 1 $ = '+fmtRate(c.rate)+' '+SYM[cur]+'. Комиссия '+Math.round(FEE*100)+'% уже учтена.':'Введите сумму в долларах. Комиссия обмена '+Math.round(FEE*100)+'%.';
+    $('x-avail').textContent='Доступно: '+(c.admin?'без ограничений':(c.buy?money(st.bal):fmtC(wallet(cur),cur)));
+    if(isBlocked(S.uid))err='Аккаунт заблокирован из-за просрочки по кредиту.';
+    else if(!c.admin&&c.usd){
+      if(c.buy&&c.usd>st.bal)err='Не хватает долларов на счёте.';
+      if(!c.buy&&c.fx>wallet(cur))err='Не хватает '+CGEN[cur]+' на счёте.';
+    }
+    $('x-err').textContent=err;
+    $('x-go').disabled=!(c.usd>=1&&!err&&!S.busy);
+  }
+  function openFx(){
+    $('x-cur').innerHTML=['rub','eur'].map(function(k){return '<button type="button" class="chip" data-xcur="'+k+'">'+SYM[k]+' '+CNAME[k]+'</button>'}).join('');
+    $('x-amt').value='';$('scrim5').hidden=false;renderFx();$('x-amt').focus();
+  }
+  async function doFx(ev){
+    ev.preventDefault();
+    if(S.busy)return;
+    var c=fxCalc();
+    if(c.usd<1)return;
+    S.busy=true;renderFx();
+    try{
+      if(isBlocked(S.uid))throw {code:'blocked'};
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var ops=snap.exists&&Array.isArray(snap.data().ops)?snap.data().ops.slice():[];
+      if(ops.length>=MAX_OPS)throw {code:'limit'};
+      var st=stats();
+      if(!c.admin){
+        if(c.buy&&c.usd>st.bal)throw {code:'insufficient'};
+        if(!c.buy&&c.fx>wallet(S.xCur))throw {code:'insufficient'};
+      }
+      ops.push({id:rid(),acc:S.uid,cur:S.xCur,side:c.buy?'buy':'sell',usd:c.usd,fx:c.fx,rate:c.rate,fee:FEE,ts:Date.now()});
+      var d0=snap.exists?clone(snap.data()):{};d0.ops=ops;
+      await ref.set(d0);
+      $('scrim5').hidden=true;
+      toast(c.buy?'Куплено '+fmtC(c.fx,S.xCur)+'.':'Продано '+fmtC(c.fx,S.xCur)+', на счёт зачислено '+money(c.usd)+'.');
+    }catch(e){$('x-err').textContent=errText(e)}
+    finally{S.busy=false;renderAll();if(!$('scrim5').hidden)renderFx()}
+  }
+  async function saveRates(){
+    var err=$('a-rate-err'),rub=parseFloat($('a-rub').value.replace(',','.')),eur=parseFloat($('a-eur').value.replace(',','.'));
+    if(!(rub>=0.01&&rub<=1000000&&eur>=0.01&&eur<=1000000)){err.textContent='Курс должен быть числом от 0,01 до 1 000 000.';return}
+    if(!can(S.uid,'rates')){err.textContent='У вашего уровня нет права менять курсы.';return}
+    err.textContent='';$('a-rate-save').disabled=true;
+    try{await S.db.doc('rates/current').set({rub:rub,eur:eur,updatedAt:Date.now()});toast('Курсы сохранены.')}
+    catch(e){err.textContent=errText(e)}
+    finally{$('a-rate-save').disabled=false}
+  }
+
+  async function addStaff(){
+    var me=S.accounts[S.uid],err=$('a-staff-err'),nick=$('a-staff-nick').value.trim().toLowerCase().replace(/^@/,'');
+    if(!me||!me.admin)return;
+    var uid=null,k;for(k in S.accounts){if(S.accounts[k].nick===nick)uid=k}
+    if(!nick){err.textContent='Введите ник игрока.';return}
+    if(!uid){err.textContent='Игрок с ником «'+nick+'» не найден.';return}
+    if(uid===S.uid||S.accounts[uid].admin){err.textContent='Это главный администратор.';return}
+    if(S.accounts[uid].staff){err.textContent='Он уже администратор.';return}
+    err.textContent='';$('a-staff-add').disabled=true;
+    try{await accUpdate(uid,{staff:true,level:S.stLv||'medium'});$('a-staff-nick').value='';toast('@'+nickOf(uid)+' теперь администратор ('+LEVELS[S.stLv||'medium'].n.toLowerCase()+' уровень).')}
+    catch(e){err.textContent=errText(e)}
+    finally{$('a-staff-add').disabled=false}
+  }
+  async function setLevel(uid,lv){
+    var me=S.accounts[S.uid];
+    if(!me||!me.admin||!S.accounts[uid]||!LEVELS[lv])return;
+    try{await accUpdate(uid,{level:lv});toast('@'+nickOf(uid)+': '+LEVELS[lv].n.toLowerCase()+' уровень.')}
+    catch(e){toast(errText(e))}
+  }
+  async function removeStaff(uid){
+    var me=S.accounts[S.uid];
+    if(!me||!me.admin||!S.accounts[uid])return;
+    try{await accUpdate(uid,{staff:false});toast('@'+nickOf(uid)+' больше не администратор.')}
+    catch(e){toast(errText(e))}
+  }
+
+  async function chooseNetwork(net){
+    var me=S.accounts[S.uid];
+    if(S.busy||!me||(me.card&&me.card.network))return;
+    S.busy=true;
+    try{
+      await accUpdate(S.uid,{card:{network:net,number:genNumber(net,S.uid)}});
+      toast('Выпущена карта '+netName(net)+'.');
+    }catch(e){toast(errText(e))}
+    finally{S.busy=false;renderAll()}
+  }
+  function drawENets(){
+    $('e-nets').innerHTML=NETS.map(function(n){return '<button type="button" class="chip" data-enet="'+n+'" aria-pressed="'+(S.eNet===n)+'">'+netName(n)+'</button>'}).join('');
+  }
+  function openCardEdit(uid){
+    var c=cardOf(uid);
+    S.editUid=uid;S.eNet=c.network||'visa';
+    $('ec-t').textContent='Карта @'+nickOf(uid);
+    $('e-num').value=fmtNum(c.number);$('e-err').textContent='';
+    drawENets();$('scrim4').hidden=false;$('e-num').focus();
+  }
+  function prefixOk(net,num){
+    if(net==='visa')return num.charAt(0)==='4';
+    if(net==='mastercard')return num.charAt(0)==='5'||num.charAt(0)==='2';
+    if(net==='uzcard')return num.indexOf('8600')===0;
+    if(net==='humo')return num.indexOf('9860')===0;
+    return true;
+  }
+  function prefixHint(net){return net==='visa'?'Номер Visa начинается с 4.':net==='mastercard'?'Номер Mastercard начинается с 5 или 2.':net==='uzcard'?'Номер Uzcard начинается с 8600.':net==='humo'?'Номер Humo начинается с 9860.':'Неверный номер.'}
+  async function saveCard(ev){
+    ev.preventDefault();
+    var uid=S.editUid,me=S.accounts[S.uid],err=$('e-err'),num=$('e-num').value.replace(/\D/g,'');
+    if(!uid||!S.accounts[uid])return;
+    if(!can(S.uid,'cards')){err.textContent='У вашего уровня нет права менять карты.';return}
+    if(num.length!==16){err.textContent='В номере должно быть 16 цифр.';return}
+    if(!prefixOk(S.eNet,num)){err.textContent=prefixHint(S.eNet);return}
+    if(usedNumbers(uid)[num]){err.textContent='Такой номер уже есть у другого игрока.';return}
+    $('e-save').disabled=true;err.textContent='';
+    try{
+      await accUpdate(uid,{card:{network:S.eNet,number:num,changedAt:Date.now()}});
+      $('scrim4').hidden=true;toast('Карта @'+nickOf(uid)+' обновлена.');
+    }catch(e){err.textContent=errText(e)}
+    finally{$('e-save').disabled=false}
+  }
+
+  async function takeLoan(){
+    if(S.busy)return;
+    var a=parseInt($('c-amt').value.replace(/\D/g,''),10)||0;
+    if(a<MIN_LOAN||a>MAX_LOAN)return;
+    S.busy=true;renderTake();
+    try{
+      if(isBlocked(S.uid))throw {code:'blocked'};
+      var ref=S.db.doc('credits/'+S.viewer),snap=await ref.get();
+      var all=snap.exists&&Array.isArray(snap.data().loans)?clone(snap.data().loans):[];
+      var loans=all.filter(mineLoan);
+      if(loans.some(function(L){return unpaid(L).length||L.status==='pending'||L.status==='hold'}))throw {code:'has_loan'};
+      if(all.length>=MAX_LOANS)throw {code:'limit'};
+      var p=makePlan(a,S.term);
+      all.push({id:rid(),acc:S.uid,principal:a,total:p.total,days:S.term,takenAt:Date.now(),inst:[],status:'pending'});
+      await ref.set({loans:all});
+      $('c-amt').value='';
+      toast('Заявка на кредит '+money(a)+' отправлена. Ждите решения администрации.');
+    }catch(e){$('c-err').textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  async function decideLoan(loanId,status){
+    var me=S.accounts[S.uid];
+    if(!me||!can(S.uid,'credit')||S.busy)return;
+    var owner=null,k,borrower=null;
+    for(k in S.rawCred){if(arr((S.rawCred[k]||{}).loans).some(function(l){return l.id===loanId}))owner=k}
+    if(!owner)return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('credits/'+owner),snap=await ref.get();
+      var all=snap.exists&&Array.isArray(snap.data().loans)?clone(snap.data().loans):[];
+      var L=all.filter(function(x){return x.id===loanId})[0];
+      if(!L||(L.status!=='pending'&&L.status!=='hold'))throw {code:'nothing'};
+      borrower=L.acc||owner;
+      if(status==='approved'){
+        var p=makePlan(L.principal,L.days);
+        L.inst=p.inst;L.total=p.total;L.takenAt=Date.now();
+      }
+      L.status=status;L.decidedAt=Date.now();L.decidedBy=S.uid;
+      await ref.set({loans:all});
+      toast(status==='approved'?'Кредит одобрен: '+money(L.principal)+' зачислено @'+nickOf(borrower)+'.':status==='declined'?'Заявка @'+nickOf(borrower)+' отклонена.':'Заявка @'+nickOf(borrower)+' поставлена на ожидание.');
+    }catch(e){toast(errText(e))}
+    finally{S.busy=false;renderAll()}
+  }
+  async function payNext(){
+    if(S.busy)return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('credits/'+S.viewer),snap=await ref.get();
+      var all=snap.exists&&Array.isArray(snap.data().loans)?clone(snap.data().loans):[];
+      var loans=all.filter(mineLoan);
+      var target=null,i,j;
+      for(i=0;i<loans.length&&!target;i++){for(j=0;j<loans[i].inst.length;j++){if(!loans[i].inst[j].paidAt){target=loans[i].inst[j];break}}}
+      if(!target)throw {code:'nothing'};
+      if(target.amt>stats().bal)throw {code:'insufficient'};
+      target.paidAt=Date.now();
+      await ref.set({loans:all});
+      toast('Платёж '+money(target.amt)+' принят.');
+    }catch(e){toast(errText(e))}
+    finally{S.busy=false;renderAll()}
+  }
+
+  function confirmSend(p){
+    S.pending=p;
+    $('sh-kv').innerHTML='<div class="kv"><span>Получатель</span><span>@'+esc(nickOf(p.to))+'</span></div><div class="kv"><span>Карта</span><span class="mono">•••• '+cardOf(p.to).number.slice(-4)+'</span></div><div class="kv"><span>Сумма</span><span><b>'+money(p.amount)+'</b></span></div>'+(p.note?'<div class="kv"><span>Комментарий</span><span>'+esc(p.note)+'</span></div>':'')+(p.qr?'<div class="kv"><span>Способ</span><span>QR-код</span></div>':'')+'<div class="kv"><span>Комиссия</span><span>0 $</span></div>';
+    $('sh-err').textContent='';$('scrim').hidden=false;$('sh-ok').focus();
+  }
+  function openSheet(){confirmSend({to:S.sel,amount:amountVal(),note:$('note').value.trim()})}
+  function closeSheet(){$('scrim').hidden=true}
+
+  async function doSend(){
+    if(S.busy||!S.pending)return;
+    S.busy=true;$('sh-ok').disabled=true;$('sh-err').textContent='';
+    var p=S.pending;
+    try{
+      if(isBlocked(S.uid))throw {code:'blocked'};
+      if(!S.accounts[p.to])throw {code:'nothing'};
+      if(p.to===S.uid)throw {code:'self'};
+      if(p.qr&&qrNonceUsed(p.qr))throw {code:'used'};
+      var ref=S.db.doc('ledger/'+S.viewer),snap=await ref.get();
+      var list=snap.exists&&Array.isArray(snap.data().sent)?snap.data().sent.slice():[];
+      if(p.amount>stats().bal)throw {code:'insufficient'};
+      if(list.length>=MAX_SENT)throw {code:'limit'};
+      var item={id:rid(),from:S.uid,to:p.to,amount:p.amount,note:p.note,ts:Date.now()};
+      if(S.lastRc&&S.lastRc.uid===p.to)item.rc=S.lastRc.id;
+      if(p.qr)item.qr=p.qr;
+      list.push(item);
+      await ref.set({sent:list});
+      closeSheet();showDone(item);
+      $('amt').value='';$('note').value='';S.sel=null;$('to-card').value='';
+      $('qr-text').value='';$('qr-res').hidden=true;S.qrPay=null;
+    }catch(e){$('sh-err').textContent=e&&e.code==='nothing'?'Получатель больше не найден.':errText(e)}
+    finally{S.busy=false;$('sh-ok').disabled=false;renderSendUI()}
+  }
+  function showDone(it){
+    $('d-amt').textContent='−'+money(it.amount);
+    $('d-kv').innerHTML=xferRows(it.from,it.to,it.note)+kvr('Время',fullTime(it.ts))+kvr('Номер операции','<span class="mono">'+esc(String(it.id).toUpperCase())+'</span>');
+    go('done');
+  }
+
+  function askDelete(uid,self){
+    S.delUid=uid;S.delSelf=!!self;S.delBan=!self&&isBlocked(uid);
+    var a=S.accounts[uid]||{};
+    $('dl-pw-wrap').hidden=!self;$('dl-pass').value='';
+    $('dl-txt').textContent=self
+      ?'Аккаунт @'+nickOf(uid)+' будет удалён навсегда: баланс и ник пропадут, ник освободится. История переводов у ваших друзей останется. Введите пароль, чтобы подтвердить.'
+      :(S.delBan
+        ?'Аккаунт @'+nickOf(uid)+' будет удалён, ник освободится. Если это последний аккаунт на его профиле, открыть новый с этого профиля будет нельзя. История переводов останется.'
+        :'Аккаунт @'+nickOf(uid)+' будет удалён вместе с балансом, ник освободится. Человек сможет открыть новый аккаунт. История переводов останется.');
+    $('dl-err').textContent='';$('scrim3').hidden=false;
+  }
+  async function doDelete(){
+    var uid=S.delUid,a=S.accounts[uid];
+    if(!uid||!a||S.busy)return;
+    S.busy=true;$('dl-ok').disabled=true;$('dl-err').textContent='';
+    try{
+      if(S.delSelf){
+        if(a.owner!==S.viewer||a.admin){$('dl-err').textContent='Этот аккаунт нельзя удалить отсюда.';return}
+        if(activeLoan(uid)){$('dl-err').textContent='Сначала верните кредит, потом удаляйте аккаунт.';return}
+        if(a.pw&&a.pw.h){
+          var okp=(await hashPw($('dl-pass').value,'smb:'+uid))===a.pw.h;
+          if(!okp){$('dl-err').textContent='Неверный пароль.';return}
+        }
+      }else{
+        var me=S.accounts[S.uid];
+        if(!me||!can(S.uid,'delete')){$('dl-err').textContent='У вашего уровня нет права удалять аккаунты.';return}
+        if(a.admin||(a.staff&&!me.admin)){$('dl-err').textContent='Этот аккаунт удалить нельзя.';return}
+      }
+      var owner=a.owner;
+      await removeAcc(uid);
+      var rest=Object.keys(S.accounts).filter(function(k){return k!==uid&&S.accounts[k].owner===owner});
+      if(S.delBan&&!rest.length)await S.db.doc('bans/'+owner).set({nick:a.nick,at:Date.now(),by:S.viewer});
+      try{await S.db.doc('handles/'+a.nick).delete()}catch(e){}
+      if(uid===S.uid){saveActive(null);go('home')}
+      $('dl-pass').value='';
+      $('scrim3').hidden=true;toast('Аккаунт @'+(a.label||a.nick)+' удалён.');
+    }catch(e){$('dl-err').textContent=errText(e)}
+    finally{S.busy=false;$('dl-ok').disabled=false;renderAll()}
+  }
+
+  /* ---------- Бомбочки ---------- */
+  var G_N=100;
+  function gPer(b){return Math.max(1,S.gBet||10)*(2*b-1)}
+  function gRand(n){var a=new Uint32Array(1);try{crypto.getRandomValues(a)}catch(e){a[0]=Math.floor(Math.random()*4294967296)}return a[0]%n}
+  function renderGameSetup(){
+    var b=S.gBombs,per=gPer(b);
+    $('g-bombs').innerHTML=[1,2,3,4,5,6,7,8,9].map(function(n){return '<button type="button" class="chip" data-gb="'+n+'" aria-pressed="'+(n===b)+'">'+n+'</button>'}).join('');
+    $('g-per').textContent='+'+money(per);
+    $('g-stake').textContent='−'+money(per);
+    var live=!!S.g&&!S.g.over;
+    $('g-bet').disabled=live;
+    $('g-bets').innerHTML=[10,100,1000,10000,100000].map(function(n){return '<button type="button" class="chip" data-gbet="'+n+'" aria-pressed="'+(n===S.gBet)+'"'+(live?' disabled':'')+'>'+n.toLocaleString('ru-RU')+'</button>'}).join('');
+    $('g-start').disabled=live;
+  }
+  function renderGameGrid(){
+    var g=S.g;$('g-play').hidden=!g;
+    if(!g)return;
+    var h='',i;
+    for(i=0;i<G_N;i++){
+      var open=g.opened[i],bomb=g.bombs[i],cls='mc',txt='';
+      if(g.over){
+        if(bomb){cls+=' bomb';txt=g.boomAt===i?'💥':'💣'}
+        else if(open){cls+=' ok';txt='✓'}
+        else cls+=' dim';
+      }else if(open){cls+=' ok';txt='✓'}
+      else{cls+=' live';if(bomb&&can(S.uid,'peek')){cls+=' peek';txt='💣'}}
+      h+='<button type="button" class="'+cls+'" data-gc="'+i+'"'+((g.over||open)?' disabled':'')+' aria-label="Клетка '+(i+1)+'">'+txt+'</button>';
+    }
+    $('g-grid').innerHTML=h;
+    $('g-win').textContent=money(g.win);
+    $('g-cash').hidden=!!g.over;$('g-cash').disabled=g.win<=0||S.busy;
+  }
+  async function writeGame(delta,bombs,cells,boom){
+    var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+    var d=snap.exists?clone(snap.data()):{};
+    d.games=Array.isArray(d.games)?d.games.slice():[];
+    if(d.games.length>=MAX_OPS)throw {code:'limit'};
+    d.games.push({id:rid(),acc:S.uid,ts:Date.now(),delta:delta,bombs:bombs,cells:cells,boom:!!boom});
+    await ref.set(d);
+  }
+  function gStart(){
+    var err=$('g-err');err.textContent='';
+    if(S.busy)return;
+    var me=S.accounts[S.uid];if(!me)return;
+    if(!(S.gBet>=1)){err.textContent='Введите сумму от 1 $ до 100 000 $.';return}
+    var b=S.gBombs,per=gPer(b);
+    if(isBlocked(S.uid)){err.textContent=ERR.blocked;return}
+    if(!me.admin&&stats().bal<per){err.textContent='Для этой игры на счёте нужно минимум '+money(per)+'.';return}
+    var bombs={},c=0;
+    while(c<b){var k=gRand(G_N);if(!bombs[k]){bombs[k]=true;c++}}
+    S.g={bombs:bombs,opened:{},n:0,win:0,per:per,nb:b,over:false,boomAt:-1};
+    renderGameSetup();renderGameGrid();
+  }
+  async function gOpen(i){
+    var g=S.g;if(!g||g.over||g.opened[i]||S.busy)return;
+    if(g.bombs[i]){
+      g.over=true;g.boomAt=i;S.busy=true;renderGameGrid();
+      try{await writeGame(-g.per,g.nb,g.n,true);toast('Бомба! Потеряно '+money(g.per)+'.')}
+      catch(e){$('g-err').textContent=errText(e)}
+      finally{S.busy=false;renderGameSetup();renderGameGrid();renderAll()}
+      return;
+    }
+    g.opened[i]=true;g.n++;g.win+=g.per;
+    if(g.n>=G_N-g.nb){gCash();return}
+    renderGameGrid();
+  }
+  async function gCash(){
+    var g=S.g;if(!g||g.over||g.win<=0||S.busy)return;
+    g.over=true;S.busy=true;renderGameGrid();
+    try{await writeGame(g.win,g.nb,g.n,false);toast('Выигрыш '+money(g.win)+' зачислен на счёт.')}
+    catch(e){$('g-err').textContent=errText(e)}
+    finally{S.busy=false;renderGameSetup();renderGameGrid();renderAll()}
+  }
+  function fullTime(ts){return new Date(ts).toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+  function kvr(a,b){return '<div class="kv"><span>'+a+'</span><span>'+b+'</span></div>'}
+  function xferRows(from,to,note){
+    function who(u){return '@'+esc(nickOf(u))+vmark(u)}
+    return kvr('Статус','Выполнен ✓')+kvr('От кого',who(from))+kvr('Кому',who(to))
+      +kvr('Карта отправителя','<span class="mono">'+fmtNum(cardOf(from).number)+'</span>')
+      +kvr('Карта получателя','<span class="mono">'+fmtNum(cardOf(to).number)+'</span>')
+      +(note?kvr('Комментарий',esc(note)):'');
+  }
+  function openReceipt(id){
+    var t=txs().filter(function(x){return x.id===id})[0];if(!t)return;
+    S.rcId=id;var title,amt,rows='';
+    if(t.kind==='in'||t.kind==='out'){
+      var inn=t.kind==='in';
+      title=inn?'Перевод получен':'Перевод отправлен';
+      amt=(inn?'+':'−')+money(t.amount);
+      rows=xferRows(inn?t.other:S.uid,inn?S.uid:t.other,t.note);
+    }else if(t.kind==='fx'){
+      var buy=t.side==='buy';
+      title=buy?'Покупка валюты':'Продажа валюты';amt=(buy?'−':'+')+money(t.usd);
+      rows=kvr('Статус','Выполнен ✓')+kvr(buy?'Получено':'Продано',fmtC(t.fx,t.cur))+kvr('Курс',fmtRate(t.rate));
+    }else if(t.kind==='adj'){
+      title='Списание владельцем';amt='−'+money(Math.abs(t.amt));
+      rows=kvr('Статус','Выполнен ✓')+kvr('Кто списал','@'+esc(ADMIN_LABEL)+BADGE)+(t.note?kvr('Причина',esc(t.note)):'');
+    }else if(t.kind==='cmv'){
+      title='Перевод между картами';amt=money(t.amt);
+      rows=kvr('Статус','Выполнен ✓')+kvr('С карты',esc(cardName(S.uid,t.from)))+kvr('На карту',esc(cardName(S.uid,t.to)));
+    }else if(t.kind==='game'&&t.crash){
+      title='Ракетка';amt=(t.delta>0?'+':t.delta<0?'−':'')+money(Math.abs(t.delta));
+      rows=kvr('Итог',!t.over?'Раунд не завершён':(t.delta>=0?'Забрали выигрыш':'Ракета улетела'))+kvr('Ставка',money(t.stake))+(t.over?kvr('Ваш множитель','×'+Number(t.mult||0).toFixed(2))+kvr('Ракета улетела на','×'+Number(t.crashAt).toFixed(2)):'');
+    }else if(t.kind==='game'&&t.slot){
+      title='Рулетка';amt=(t.delta>0?'+':t.delta<0?'−':'')+money(Math.abs(t.delta));
+      rows=kvr('Выпало',esc((t.reels||[]).join(' ')))+kvr('Итог',t.delta>0?'Выигрыш':(t.delta===0?'Ставка возвращена':'Проигрыш'));
+    }else if(t.kind==='buy'){
+      title='Цвет галочки';amt='−'+money(Math.abs(t.amt));
+      rows=kvr('Статус','Выполнен ✓')+kvr('Покупка',esc((COLORS[t.item]||{}).n||'')+' галочка');
+    }else if(t.kind==='game'&&t.dice){
+      title='Кубик';amt=(t.delta>0?'+':'−')+money(Math.abs(t.delta));
+      rows=kvr('Итог',t.delta>0?'Угадали':'Не угадали')+kvr('Ваше число',String(t.pick))+kvr('Выпало',String(t.roll))+kvr('Ставка',money(t.stake));
+    }else if(t.kind==='game'){
+      title='Бомбочки';amt=(t.delta>0?'+':'−')+money(Math.abs(t.delta));
+      rows=kvr('Итог',t.boom?'Бомба':'Забрали выигрыш')+kvr('Бомб',String(t.bombs))+kvr('Клеток',String(t.cells));
+    }else{
+      title='Подписка Samarkand+';amt='+'+money(t.amt);
+      rows=kvr('Статус','Выполнен ✓')+kvr('Назначение','Ежедневный бонус подписки');
+    }
+    rows+=kvr('Время',fullTime(t.ts))+kvr('Номер операции','<span class="mono">'+esc(String(t.id).toUpperCase())+'</span>');
+    $('rc-t').textContent=title;$('rc-amt').textContent=amt;$('rc-kv').innerHTML=rows;$('rc-err').textContent='';
+    $('scrim8').hidden=false;
+  }
+  async function hideTx(){
+    var id=S.rcId,uid=S.uid;if(!id||!uid||S.busy)return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.hid=d.hid||{};var l=Array.isArray(d.hid[uid])?d.hid[uid]:[];
+      if(l.indexOf(id)<0)l.push(id);d.hid[uid]=l;
+      await ref.set(d);$('scrim8').hidden=true;toast('Операция удалена из вашей истории.');
+    }catch(e){$('rc-err').textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  async function toggleVerified(uid){
+    var a=S.accounts[uid],me=S.accounts[S.uid];
+    if(!a||!me||!can(S.uid,'verify')||a.admin||S.busy)return;
+    S.busy=true;
+    try{await accUpdate(uid,{verified:!a.verified});toast(a.verified?'Галочка снята.':'Галочка выдана @'+nickOf(uid)+'.')}
+    catch(e){toast(errText(e))}
+    finally{S.busy=false;renderAll()}
+  }
+  function spStaff(){var me=S.accounts[S.uid];return !!(me&&(me.admin||me.staff))}
+  function threadOf(acc){return S.sup.filter(function(m){return (m.to==='support'&&m.from===acc)||m.to===acc})}
+  var spLen=-1;
+  function rdOf(t){return S.spRd[t]||{u:0,s:0,sBy:null}}
+  function roleInstr(uid){return roleOf(uid)==='Владелец'?'владельцем':'администратором'}
+  function unreadIn(target){
+    var st=spStaff(),r=rdOf(target);
+    return threadOf(target).filter(function(m){return st?(m.to==='support'&&m.ts>r.s):(m.to!=='support'&&m.ts>r.u)}).length;
+  }
+  var rdBusy=false;
+  async function syncRead(target){
+    if(rdBusy||!S.uid||!target)return;
+    var st=spStaff(),r=rdOf(target),own=st?r.s:r.u,latest=0;
+    threadOf(target).forEach(function(m){if(st?m.to==='support':m.to!=='support'){if(m.ts>latest)latest=m.ts}});
+    if(!latest||latest<=own)return;
+    rdBusy=true;
+    try{
+      var ref=S.db.doc('support/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.rd=d.rd||{};d.rd[target]={ts:Math.max(Date.now(),latest+1),by:S.uid};
+      await ref.set(d);
+    }catch(e){}
+    finally{rdBusy=false}
+  }
+  function drawChat(force){
+    if(!$('sp-list'))return;
+    var st=spStaff(),target=st?S.spTarget:S.uid;
+    if(st&&(!target||!S.accounts[target])){
+      S.spTarget=null;
+      $('sp-head').innerHTML='<span class="coin">S</span><div><div class="who" style="font-weight:700">Чат поддержки</div><div class="sub">Обращения пользователей</div></div>';
+      $('sp-sub').textContent='';$('sp-back').hidden=true;$('sp-form').hidden=true;$('sp-list').hidden=true;$('sp-inbox').hidden=false;
+      var th={};S.sup.forEach(function(m){var u=m.to==='support'?m.from:m.to;var a=S.accounts[u];if(a&&!a.admin&&!a.staff)th[u]=m});
+      var ids=Object.keys(th).sort(function(a,b){return th[b].ts-th[a].ts});
+      $('sp-inbox').innerHTML=ids.length?ids.map(function(u){
+        var m=th[u],n=nickOf(u),r=rdOf(u),un=unreadIn(u),mine=m.to!=='support';
+        var tick=mine?(m.ts<=r.u?'<span style="color:var(--in)">✓✓</span> ':'✓ '):'';
+        return '<div class="tx" data-sp="'+esc(u)+'" role="button" tabindex="0">'+avatar(n,38)+'<div style="min-width:0"><div class="who">@'+esc(n)+vmark(u)+'</div><div class="sub" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+tick+(mine?'Вы: ':'')+esc(m.text)+'</div></div><span>'+(un?'<span class="udot">'+un+'</span>':'<span class="sub">'+when(m.ts)+'</span>')+'</span></div>';
+      }).join(''):'<div class="empty">Обращений пока нет.</div>';
+      return;
+    }
+    $('sp-inbox').hidden=true;$('sp-list').hidden=false;
+    if(!target||!S.accounts[target]){$('sp-head').innerHTML='<b>Поддержка</b>';$('sp-list').innerHTML='';$('sp-form').hidden=true;$('sp-back').hidden=true;return}
+    $('sp-form').hidden=false;$('sp-back').hidden=!st;
+    $('sp-head').innerHTML=st
+      ?avatar(nickOf(target),38)+'<div style="min-width:0"><div class="who" style="font-weight:700">@'+esc(nickOf(target))+vmark(target)+'</div><div class="sub">Зарегистрирован: '+regDate(target)+'</div></div>'
+      :'<span class="coin">S</span><div><div class="who" style="font-weight:700">Чат поддержки</div><div class="sub" style="color:var(--in)">● на связи · Samarkand Bank</div></div>';
+    $('sp-sub').textContent='';
+    var r=rdOf(target),list=threadOf(target),h='';
+    if(!st)h+='<div class="bub"><div>Здравствуйте! Это чат поддержки Samarkand Bank. Опишите вопрос, и мы ответим прямо здесь.</div><div class="sub">Поддержка</div></div>';
+    h+=list.length?list.map(function(m){
+      var mine=st?m.to!=='support':m.to==='support',meta='';
+      if(mine){
+        var rd=st?(m.ts<=r.u):(m.ts<=r.s);
+        meta=when(m.ts)+' · '+(rd?'✓✓ Прочитано '+(st?'пользователем':(r.sBy?roleInstr(r.sBy):'')):'✓ Доставлено');
+      }else if(st){
+        meta='@'+esc(nickOf(m.from))+' · '+when(m.ts)+(m.ts<=r.s?' · ✓✓ Прочитано '+(r.sBy?roleInstr(r.sBy):''):'');
+      }else{
+        meta=esc(roleOf(m.from)||'Поддержка')+' · '+when(m.ts);
+      }
+      return '<div class="bub'+(mine?' me':'')+'"><div>'+esc(m.text)+'</div><div class="sub">'+meta+'</div></div>';
+    }).join(''):(st?'<div class="empty">Сообщений пока нет.</div>':'');
+    $('sp-list').innerHTML=h;
+    if(force||list.length!==spLen){var el=$('sp-list');el.scrollTop=el.scrollHeight}
+    spLen=list.length;
+    if(S.tab==='support')syncRead(target);
+  }
+  function openSupport(acc){S.spTarget=acc;spLen=-1;go('support')}
+  async function sendSupport(ev){
+    ev.preventDefault();
+    var txt=$('sp-in').value.trim(),st=spStaff(),target=st?S.spTarget:S.uid;
+    if(!txt||!S.uid||!target||S.busy)return;
+    S.busy=true;$('sp-send').disabled=true;$('sp-err').textContent='';
+    try{
+      var ref=S.db.doc('support/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{},msgs=arr(d.msgs);
+      msgs.push({id:rid(),ts:Date.now(),from:S.uid,to:st?target:'support',text:txt.slice(0,500)});
+      d.msgs=msgs.slice(-200);
+      await ref.set(d);$('sp-in').value='';
+    }catch(e){$('sp-err').textContent=errText(e)}
+    finally{S.busy=false;$('sp-send').disabled=false;refresh()}
+  }
+  function renderSupport(){
+    var st=spStaff();
+    $('tab-support').hidden=false;
+    $('tab-support').querySelector('.lbl2').textContent=st?'Поддержка':'Чат поддержки';
+    if(st){
+      var vs=Object.keys(S.accounts).filter(function(u){return S.accounts[u].verified&&!S.accounts[u].admin});
+      $('vf-list').innerHTML=vs.length?vs.map(function(u){var n=nickOf(u);
+        return '<div class="cardrow">'+avatar(n,38)+'<div><div class="who" style="font-weight:600">@'+esc(n)+vmark(u)+'</div></div><button class="btn ghost sm" type="button" data-vf="'+esc(u)+'">Снять</button></div>';
+      }).join(''):'<div class="empty">Галочек пока никому не выдано.</div>';
+    }
+    var tot=0;
+    if(st){Object.keys(S.accounts).forEach(function(u){var a=S.accounts[u];if(!a.admin&&!a.staff)tot+=unreadIn(u)})}
+    else if(S.uid)tot=unreadIn(S.uid);
+    if(S.tab==='support'&&!st)tot=0;
+    var bg=$('sp-badge');bg.hidden=!tot;bg.textContent=tot>99?'99+':String(tot);
+    if(S.tab==='support')drawChat();
+  }
+  function renderColors(){
+    var me=S.accounts[S.uid],box=$('vc-panel');
+    if(!box)return;
+    var show=!!(me&&(me.verified||me.admin));box.hidden=!show;
+    if(!show)return;
+    var cur=colorOf(S.uid),h='';
+    Object.keys(COLORS).forEach(function(c){
+      var own=ownedColor(S.uid,c),arm=S.vcArm===c&&!own;
+      var st=c===cur?'Выбрана':(own?(c==='blue'?'Основная':'Куплена'):(arm?'Нажмите ещё раз: −'+COLOR_PRICE.toLocaleString('ru-RU')+' $':COLOR_PRICE.toLocaleString('ru-RU')+' $'));
+      h+='<button type="button" class="cardrow" data-vc="'+c+'" style="background:none;border:0;border-top:1px solid var(--line);width:100%;text-align:left">'+badgeSvg(c).replace('class="vf"','class="vf" style="width:30px;height:30px;margin:0"')+'<div><div class="who" style="font-weight:600">'+COLORS[c].n+' галочка</div></div><span class="'+(c===cur?'pill':'link')+'">'+st+'</span></button>';
+    });
+    $('vc-list').innerHTML=h;
+  }
+  async function pickColor(c){
+    var me=S.accounts[S.uid];if(!me||!COLORS[c]||S.busy)return;
+    var err=$('vc-err');err.textContent='';
+    var own=ownedColor(S.uid,c);
+    if(!own&&S.vcArm!==c){S.vcArm=c;renderColors();return}
+    if(!own&&!me.admin&&stats().bal<COLOR_PRICE){err.textContent='Не хватает средств: цвет стоит '+money(COLOR_PRICE)+'.';S.vcArm=null;renderColors();return}
+    S.busy=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.vcol=d.vcol||{};
+      if(!own){
+        d.buys=Array.isArray(d.buys)?d.buys.slice():[];
+        if(d.buys.length>=MAX_OPS)throw {code:'limit'};
+        d.buys.push({id:rid(),acc:S.uid,ts:Date.now(),amt:-COLOR_PRICE,item:c});
+      }
+      d.vcol[S.uid]=c;
+      await ref.set(d);S.vcArm=null;
+      toast(own?'Цвет галочки изменён.':'Куплена '+COLORS[c].n.toLowerCase()+' галочка.');
+    }catch(e){err.textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  /* ---------- Рулетка ---------- */
+  var SLOT=[{s:'7️⃣',m:50},{s:'💎',m:25},{s:'🔔',m:15},{s:'🍒',m:12},{s:'🍌',m:10},{s:'🍋',m:8}],S_MIN=100,S_MAX=100000;
+  function renderSlots(){
+    var live=!!S.sBusy;
+    $('s-bets').innerHTML=[100,500,1000,5000,10000].map(function(n){return '<button type="button" class="chip" data-sbet="'+n+'" aria-pressed="'+(n===S.sBet)+'"'+(live?' disabled':'')+'>'+n.toLocaleString('ru-RU')+'</button>'}).join('');
+    var b=S.sBet||0;
+    $('s-table').innerHTML=SLOT.map(function(x){return '<div class="kv"><span style="font-size:20px">'+x.s+x.s+x.s+'</span><span class="mono">×'+x.m+(b?' = '+money(b*x.m):'')+'</span></div>'}).join('')+'<div class="kv"><span>В разнобой</span><span class="mono">ничего, ставка сгорает</span></div>';
+    $('s-go').disabled=live;$('s-bet').disabled=live;
+  }
+  async function writeSlot(delta,reels,stake){
+    var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+    var d=snap.exists?clone(snap.data()):{};
+    d.games=Array.isArray(d.games)?d.games.slice():[];
+    if(d.games.length>=MAX_OPS)throw {code:'limit'};
+    d.games.push({id:rid(),acc:S.uid,ts:Date.now(),delta:delta,slot:1,reels:reels,stake:stake});
+    await ref.set(d);
+  }
+  async function sRoll(){
+    var err=$('s-err');err.textContent='';$('s-res').textContent='';
+    if(S.busy||S.sBusy)return;
+    var me=S.accounts[S.uid];if(!me)return;
+    var bet=S.sBet||0;
+    if(bet<S_MIN){err.textContent='Минимальная ставка '+money(S_MIN)+'.';return}
+    if(bet>S_MAX){err.textContent='Максимальная ставка '+money(S_MAX)+'.';return}
+    if(isBlocked(S.uid)){err.textContent=ERR.blocked;return}
+    if(!me.admin&&stats().bal<bet){err.textContent='На основной карте не хватает '+money(bet)+'.';return}
+    S.busy=true;S.sBusy=true;renderSlots();
+    var els=$('s-reels').children,res=[0,1,2].map(function(){return gRand(SLOT.length)},0),timers=[];
+    function stop(i){clearInterval(timers[i]);els[i].textContent=SLOT[res[i]].s}
+    for(var i=0;i<3;i++)(function(i){timers[i]=setInterval(function(){els[i].textContent=SLOT[gRand(SLOT.length)].s},70)})(i);
+    try{
+      for(var j=0;j<3;j++){await new Promise(function(r){setTimeout(r,500+j*450)});stop(j)}
+      var a=res[0],b2=res[1],c=res[2],delta,txt;
+      if(a===b2&&b2===c){var pay=bet*SLOT[a].m;delta=pay-bet;txt='Три '+SLOT[a].s+'! Вы забираете '+money(pay)+'.'}
+      else{delta=-bet;txt='В разнобой: ничего не получаете, ставка '+money(bet)+' сгорела.'}
+      await writeSlot(delta,res.map(function(x){return SLOT[x].s}),bet);
+      $('s-res').textContent=txt;
+    }catch(e){timers.forEach(clearInterval);err.textContent=errText(e)}
+    finally{S.busy=false;S.sBusy=false;renderSlots();renderAll()}
+  }
+  /* ---------- Ракетка ---------- */
+  var C_MIN=100,C_MAX=1000000,C_RATE=0.12;
+  function crashPoint(){var a=new Uint32Array(1);try{crypto.getRandomValues(a)}catch(e){a[0]=Math.floor(Math.random()*4294967296)}var u=a[0]/4294967296,c=Math.floor(96/(1-u))/100;return Math.min(1000,Math.max(1,c))}
+  function renderCrash(){
+    var live=!!S.cr&&!S.cr.over;
+    $('cr-bets').innerHTML=[100,500,1000,10000,100000].map(function(n){return '<button type="button" class="chip" data-cbet="'+n+'" aria-pressed="'+(n===S.cBet)+'"'+(live?' disabled':'')+'>'+n.toLocaleString('ru-RU')+'</button>'}).join('');
+    $('cr-bet').disabled=live;$('cr-auto').disabled=live;$('cr-go').hidden=live;$('cr-out').hidden=!live;
+  }
+  async function crWrite(delta,mult){
+    var cr=S.cr,ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+    var d=snap.exists?clone(snap.data()):{};
+    d.games=Array.isArray(d.games)?d.games.slice():[];
+    var g=d.games.filter(function(x){return x.id===cr.id})[0];
+    if(g){g.delta=delta;g.mult=mult;g.crashAt=cr.crashAt;g.over=1}
+    await ref.set(d);
+  }
+  async function crFinish(cashed,mult){
+    var cr=S.cr;if(!cr||cr.over)return;
+    cr.over=true;clearInterval(cr.iv);
+    var payout=cashed?Math.floor(cr.stake*mult):0,delta=payout-cr.stake;
+    $('cr-mult').textContent='×'+(cashed?mult:cr.crashAt).toFixed(2);
+    $('cr-mult').style.color=cashed?'var(--in)':'var(--out)';
+    $('cr-rocket').textContent=cashed?'🚀':'💥';
+    $('cr-res').textContent=cashed?'Вы забрали '+money(payout)+' (×'+mult.toFixed(2)+').':'Ракета улетела на ×'+cr.crashAt.toFixed(2)+'. Ставка '+money(cr.stake)+' сгорела.';
+    try{await crWrite(delta,cashed?mult:0)}catch(e){$('cr-err').textContent=errText(e)}
+    renderCrash();renderAll();
+  }
+  function crTick(){
+    var cr=S.cr;if(!cr||cr.over)return;
+    var t=(Date.now()-cr.t0)/1000,m=Math.exp(C_RATE*t);
+    if(m>=cr.crashAt){crFinish(false);return}
+    var mm=Math.floor(m*100)/100;cr.cur=mm;
+    $('cr-mult').textContent='×'+mm.toFixed(2);$('cr-mult').style.color='';
+    $('cr-rocket').style.transform='translateY('+(-Math.min(30,t*3))+'px) rotate(-8deg)';
+    if(cr.auto&&mm>=cr.auto)crFinish(true,mm);
+  }
+  async function crStart(){
+    var err=$('cr-err');err.textContent='';$('cr-res').textContent='';
+    if(S.busy||(S.cr&&!S.cr.over))return;
+    var me=S.accounts[S.uid];if(!me)return;
+    var bet=S.cBet||0;
+    if(bet<C_MIN){err.textContent='Минимальная ставка '+money(C_MIN)+'.';return}
+    if(bet>C_MAX){err.textContent='Максимальная ставка '+money(C_MAX)+'.';return}
+    if(isBlocked(S.uid)){err.textContent=ERR.blocked;return}
+    if(!me.admin&&stats().bal<bet){err.textContent='На основной карте не хватает '+money(bet)+'.';return}
+    var auto=parseFloat(String($('cr-auto').value).replace(',','.'))||0;
+    if(auto&&auto<1.01){err.textContent='Авто-забор должен быть не меньше 1.01.';return}
+    S.busy=true;$('cr-go').disabled=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.games=Array.isArray(d.games)?d.games.slice():[];
+      if(d.games.length>=MAX_OPS)throw {code:'limit'};
+      var id=rid();
+      d.games.push({id:id,acc:S.uid,ts:Date.now(),delta:-bet,crash:1,stake:bet,mult:0,over:0});
+      await ref.set(d);
+      S.cr={id:id,stake:bet,crashAt:crashPoint(),t0:Date.now(),auto:auto,over:false,cur:1};
+      $('cr-mult').textContent='×1.00';$('cr-mult').style.color='';$('cr-rocket').textContent='🚀';
+      S.cr.iv=setInterval(crTick,60);
+    }catch(e){err.textContent=errText(e)}
+    finally{S.busy=false;$('cr-go').disabled=false;renderCrash();renderAll()}
+  }
+  function crOut(){var cr=S.cr;if(!cr||cr.over)return;crTick();if(cr.over)return;crFinish(true,Math.max(1,cr.cur||1))}
+  /* ---------- Кубик ---------- */
+  var D_MIN=50000,D_MAX=1000000,D_MULT=5,DFACE=['🎲','⚀','⚁','⚂','⚃','⚄','⚅'];
+  function renderDice(){
+    var live=!!S.dBusy;
+    $('d-nums').innerHTML=[1,2,3,4,5,6].map(function(n){return '<button type="button" class="chip" data-dn="'+n+'" aria-pressed="'+(S.dPick===n)+'" style="font-size:22px;padding:12px 0;text-align:center"'+(live?' disabled':'')+'>'+n+'</button>'}).join('');
+    $('d-bets').innerHTML=[50000,100000,250000,500000,1000000].map(function(n){return '<button type="button" class="chip" data-dbet="'+n+'" aria-pressed="'+(n===S.dBet)+'"'+(live?' disabled':'')+'>'+n.toLocaleString('ru-RU')+'</button>'}).join('');
+    var b=S.dBet||0;
+    $('d-win').textContent='+'+money(b*D_MULT);$('d-lose').textContent='−'+money(b);
+    $('d-go').disabled=live;$('d-bet').disabled=live;
+  }
+  async function writeDice(delta,pick,roll,stake){
+    var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+    var d=snap.exists?clone(snap.data()):{};
+    d.games=Array.isArray(d.games)?d.games.slice():[];
+    if(d.games.length>=MAX_OPS)throw {code:'limit'};
+    d.games.push({id:rid(),acc:S.uid,ts:Date.now(),delta:delta,dice:1,pick:pick,roll:roll,stake:stake});
+    await ref.set(d);
+  }
+  async function dRoll(){
+    var err=$('d-err');err.textContent='';$('d-res').textContent='';
+    if(S.busy||S.dBusy)return;
+    var me=S.accounts[S.uid];if(!me)return;
+    if(!(S.dPick>=1&&S.dPick<=6)){err.textContent='Сначала выберите число от 1 до 6.';return}
+    var bet=S.dBet||0;
+    if(bet<D_MIN){err.textContent='Минимальная ставка '+money(D_MIN)+'.';return}
+    if(bet>D_MAX){err.textContent='Максимальная ставка '+money(D_MAX)+'.';return}
+    if(isBlocked(S.uid)){err.textContent=ERR.blocked;return}
+    if(!me.admin&&stats().bal<bet){err.textContent='На счёте не хватает '+money(bet)+'.';return}
+    S.busy=true;S.dBusy=true;renderDice();
+    var face=$('d-face'),iv=setInterval(function(){face.textContent=DFACE[1+gRand(6)]},90);
+    try{
+      await new Promise(function(r){setTimeout(r,900)});
+      clearInterval(iv);
+      var roll=1+gRand(6),win=roll===S.dPick;
+      face.textContent=DFACE[roll];
+      await writeDice(win?bet*D_MULT:-bet,S.dPick,roll,bet);
+      $('d-res').textContent=win?'Выпало '+roll+'. Вы угадали и получили '+money(bet*D_MULT)+'!':'Выпало '+roll+'. Не повезло, ставка '+money(bet)+' сгорела.';
+    }catch(e){clearInterval(iv);err.textContent=errText(e)}
+    finally{S.busy=false;S.dBusy=false;renderDice();renderAll()}
+  }
+  function balOf(uid){var u=S.uid;S.uid=uid;var b=stats().bal;S.uid=u;return b}
+  function tkShow(id){['tk-pick','tk-form','tk-done'].forEach(function(x){$(x).style.display=(x===id)?(x==='tk-pick'?'':'flex'):'none'})}
+  function openTake(){$('tk-q').value='';tkShow('tk-pick');drawTake();$('scrim10').hidden=false}
+  function drawTake(){
+    var q=$('tk-q').value.trim().toLowerCase().replace(/^@/,'');
+    var ids=Object.keys(S.accounts).filter(function(u){var a=S.accounts[u];return !a.admin&&(!q||a.nick.indexOf(q)>-1)}).sort(function(a,b){return S.accounts[a].nick.localeCompare(S.accounts[b].nick)}).slice(0,50);
+    $('tk-cands').innerHTML=ids.length?ids.map(function(u){var n=nickOf(u);
+      return '<button type="button" class="cardrow" data-tkpick="'+esc(u)+'" style="background:none;border:0;border-top:1px solid var(--line);width:100%;text-align:left">'+avatar(n,38)+'<div><div class="who" style="font-weight:600">@'+esc(n)+vmark(u)+'</div><div class="sub">'+money(balOf(u))+'</div></div><span class="link">Выбрать</span></button>';
+    }).join(''):'<div class="empty">Подходящих пользователей нет.</div>';
+  }
+  function pickTake(uid){
+    S.tkUid=uid;$('tk-who').textContent='Забрать у @'+nickOf(uid);
+    $('tk-bal').textContent='Сейчас на счёте: '+money(balOf(uid));
+    $('tk-amt').value='';$('tk-note').value='';$('tk-err').textContent='';tkShow('tk-form');
+  }
+  async function doTake(ev){
+    ev.preventDefault();
+    var me=S.accounts[S.uid],uid=S.tkUid,a=S.accounts[uid],err=$('tk-err');err.textContent='';
+    if(!me||!can(S.uid,'take')){err.textContent='У вашего уровня нет права списывать деньги.';return}
+    if(!a||a.admin){err.textContent='У этого аккаунта нельзя забрать деньги.';return}
+    var amt=parseInt($('tk-amt').value.replace(/\D/g,''),10)||0,bal=balOf(uid);
+    if(amt<1){err.textContent='Введите сумму больше нуля.';return}
+    if(amt>bal){err.textContent='На счёте только '+money(bal)+'.';return}
+    if(S.busy)return;S.busy=true;$('tk-go').disabled=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.adj=Array.isArray(d.adj)?d.adj.slice():[];
+      if(d.adj.length>=MAX_OPS)throw {code:'limit'};
+      d.adj.push({id:rid(),acc:uid,ts:Date.now(),amt:-amt,note:$('tk-note').value.trim().slice(0,60),by:S.uid});
+      await ref.set(d);
+      $('tk-dt').textContent='Списано '+money(amt);
+      $('tk-dd').textContent='У @'+nickOf(uid)+' забрано '+money(amt)+'. Пользователь увидит списание в истории.';
+      tkShow('tk-done');
+    }catch(e){err.textContent=errText(e)}
+    finally{S.busy=false;$('tk-go').disabled=false;renderAll()}
+  }
+  function openVf(){
+    $('vf-q').value='';$('vf-err').textContent='';$('vf-pick').style.display='';$('vf-done').style.display='none';
+    drawVf();$('scrim9').hidden=false;
+  }
+  function drawVf(){
+    var q=$('vf-q').value.trim().toLowerCase().replace(/^@/,'');
+    var ids=Object.keys(S.accounts).filter(function(u){var a=S.accounts[u];return !a.admin&&!a.verified&&(!q||a.nick.indexOf(q)>-1)}).sort(function(a,b){return S.accounts[a].nick.localeCompare(S.accounts[b].nick)}).slice(0,50);
+    $('vf-cands').innerHTML=ids.length?ids.map(function(u){var n=nickOf(u);
+      return '<button type="button" class="cardrow" data-vfpick="'+esc(u)+'" style="background:none;border:0;border-top:1px solid var(--line);width:100%;text-align:left">'+avatar(n,38)+'<div><div class="who" style="font-weight:600">@'+esc(n)+'</div></div><span class="link">Выдать ✓</span></button>';
+    }).join(''):'<div class="empty">Подходящих пользователей нет.</div>';
+  }
+  async function grantVf(uid){
+    var me=S.accounts[S.uid],a=S.accounts[uid];
+    if(!a||!me||!can(S.uid,'verify')||S.busy)return;
+    S.busy=true;$('vf-err').textContent='';
+    try{
+      await accUpdate(uid,{verified:true});
+      $('vf-big').innerHTML=BADGE.replace('class="vf"','class="vf" style="width:84px;height:84px;margin:0"');
+      $('vf-dt').textContent='Галочка выдана @'+nickOf(uid);
+      $('vf-pick').style.display='none';$('vf-done').style.display='flex';
+      toast('Галочка выдана @'+nickOf(uid)+'.');
+    }catch(e){$('vf-err').textContent=errText(e)}
+    finally{S.busy=false;renderAll()}
+  }
+  var clrArmed=0;
+  async function clearHistory(){
+    var btn=$('hist-clear');
+    if(!clrArmed){clrArmed=1;btn.textContent='Нажмите ещё раз, чтобы очистить';setTimeout(function(){clrArmed=0;btn.textContent='Очистить историю'},4000);return}
+    clrArmed=0;btn.textContent='Очистить историю';
+    if(S.busy||!S.uid)return;
+    S.busy=true;
+    try{
+      var ref=S.db.doc('fx/'+S.viewer),snap=await ref.get();
+      var d=snap.exists?clone(snap.data()):{};
+      d.clr=d.clr||{};d.clr[S.uid]=Date.now();
+      await ref.set(d);toast('История очищена.');
+    }catch(e){toast(errText(e))}
+    finally{S.busy=false;renderAll()}
+  }
+
+  function copy(text,msg){
+    try{navigator.clipboard.writeText(text).then(function(){toast(msg)},function(){toast(text)})}catch(e){toast(text)}
+  }
+
+  /* ---------- QR ---------- */
+  /* Каждый QR уникален: в код входят номер карты, сумма и одноразовый номер запроса.
+     Цвет и форма точек тоже зависят от них, но углы-«глазки» остаются квадратными, чтобы код читался. */
+  function rrect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();ctx.fill()}
+  function drawQr(canvas,text,seed){
+    if(typeof qrcode==='undefined')return false;
+    var qr=qrcode(0,'M');qr.addData(text);qr.make();
+    var n=qr.getModuleCount(),q=4,px=Math.max(3,Math.floor(264/(n+2*q))),size=px*(n+2*q);
+    canvas.width=size;canvas.height=size;
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);
+    ctx.fillStyle='hsl('+(seed%360)+',62%,22%)';
+    var style=Math.floor(seed/360)%3,r,c,x,y,finder;
+    for(r=0;r<n;r++)for(c=0;c<n;c++){
+      if(!qr.isDark(r,c))continue;
+      x=(c+q)*px;y=(r+q)*px;
+      finder=(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);
+      if(finder||style===0)ctx.fillRect(x,y,px,px);
+      else if(style===1)rrect(ctx,x,y,px,px,px*0.3);
+      else rrect(ctx,x+px*0.06,y+px*0.06,px*0.88,px*0.88,px*0.44);
+    }
+    return true;
+  }
+  function qrNonceUsed(n){for(var k in S.ledgers){var l=sentOf(k);for(var i=0;i<l.length;i++)if(l[i].qr===n)return true}return false}
+  function makeQr(){
+    var a=parseInt($('qr-amt').value.replace(/\D/g,''),10)||0,err=$('qr-err');err.textContent='';
+    var num=selCard().num,nonce=rid(),text='SMB1|'+num+'|'+a+'|'+nonce;
+    if(!drawQr($('qr-canvas'),text,hash(num+nonce))){err.textContent='Не загрузилась библиотека QR. Проверьте интернет и обновите страницу.';return}
+    $('qr-out').hidden=false;$('qr-code').textContent=text;
+    $('qr-cap').textContent=a?'Запрос на '+money(a)+' для @'+nickOf(S.uid):'Сумму укажет плательщик. Получатель: @'+nickOf(S.uid);
+  }
+  function parseQr(text){
+    var p=String(text||'').trim().split('|');
+    if(p.length!==4||p[0]!=='SMB1'||!/^\d{16}$/.test(p[1])||!/^\d{1,9}$/.test(p[2])||!/^[a-z0-9]{6,30}$/.test(p[3]))return null;
+    return {card:p[1],amount:parseInt(p[2],10),nonce:p[3]};
+  }
+  function qrPayState(){
+    var a=S.qrPay?(S.qrPay.amount||parseInt($('qr-pay-amt').value.replace(/\D/g,''),10)||0):0,st=stats();
+    $('qr-pay-go').disabled=!(S.qrPay&&a>=1&&a<=st.bal&&!isBlocked(S.uid)&&!S.busy);
+    var e=$('qr-pay-err');
+    if(S.qrPay){e.textContent=isBlocked(S.uid)?'Аккаунт заблокирован из-за просрочки по кредиту.':(a>st.bal?'Не хватает долларов на счёте.':'')}
+  }
+  function qrCheck(text){
+    var res=$('qr-res'),err=$('qr-pay-err');err.textContent='';S.qrPay=null;res.hidden=true;
+    var q=parseQr(text);
+    if(!q){err.textContent='Это не QR-код Samarkand_bank.';return}
+    var to=findByCard(q.card);
+    if(!to){err.textContent='Получатель по этому QR-коду не найден.';return}
+    if(to===S.uid){err.textContent='Это ваш собственный QR-код.';return}
+    if(qrNonceUsed(q.nonce)){err.textContent='Этот QR-код уже оплачен.';return}
+    S.qrPay={to:to,amount:q.amount,nonce:q.nonce};
+    $('qr-who').innerHTML='Получатель: <b>@'+esc(nickOf(to))+'</b>';
+    var inp=$('qr-pay-amt');
+    if(q.amount){inp.value=q.amount.toLocaleString('ru-RU');inp.readOnly=true}else{inp.value='';inp.readOnly=false}
+    res.hidden=false;qrPayState();
+  }
+  function decodeFile(file){
+    return new Promise(function(resolve,reject){
+      var img=new Image(),url=URL.createObjectURL(file);
+      img.onload=function(){
+        var s=Math.min(1,1000/Math.max(img.width,img.height)),w=Math.max(1,Math.round(img.width*s)),h=Math.max(1,Math.round(img.height*s));
+        var cv=document.createElement('canvas');cv.width=w;cv.height=h;
+        var ctx=cv.getContext('2d');ctx.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+        try{var d=ctx.getImageData(0,0,w,h),r=jsQR(d.data,w,h,{inversionAttempts:'attemptBoth'});resolve(r?r.data:null)}catch(e){reject(e)}
+      };
+      img.onerror=function(){URL.revokeObjectURL(url);reject(new Error('img'))};
+      img.src=url;
+    });
+  }
+  async function scanFile(file){
+    var err=$('qr-pay-err');err.textContent='';
+    if(!file)return;
+    if(typeof jsQR==='undefined'){err.textContent='Не загрузилась библиотека чтения QR. Вставьте код текстом.';return}
+    try{
+      var text=await decodeFile(file);
+      if(!text){$('qr-res').hidden=true;S.qrPay=null;err.textContent='QR-код на изображении не найден. Попробуйте снимок поближе или вставьте код.';return}
+      $('qr-text').value=text;qrCheck(text);
+    }catch(e){err.textContent='Не удалось открыть изображение.'}
+  }
+
+  /* ---------- сканер камерой ---------- */
+  var cam={stream:null,raf:0,det:null,cv:null};
+  function stopCam(){
+    cancelAnimationFrame(cam.raf);
+    if(cam.stream){cam.stream.getTracks().forEach(function(t){t.stop()});cam.stream=null}
+    $('cam-v').srcObject=null;$('scrim6').hidden=true;
+  }
+  function scanFrame(v){
+    if(cam.det)return cam.det.detect(v).then(function(r){return r&&r[0]?r[0].rawValue:null}).catch(function(){return null});
+    if(typeof jsQR==='undefined'||!v.videoWidth)return Promise.resolve(null);
+    var s=Math.min(1,520/v.videoWidth),w=Math.round(v.videoWidth*s),h=Math.round(v.videoHeight*s);
+    cam.cv=cam.cv||document.createElement('canvas');cam.cv.width=w;cam.cv.height=h;
+    var ctx=cam.cv.getContext('2d',{willReadFrequently:true});ctx.drawImage(v,0,0,w,h);
+    try{var d=ctx.getImageData(0,0,w,h),r=jsQR(d.data,w,h,{inversionAttempts:'dontInvert'});return Promise.resolve(r?r.data:null)}catch(e){return Promise.resolve(null)}
+  }
+  async function startCam(){
+    var err=$('qr-pay-err');err.textContent='';
+    var tg=window.Telegram&&window.Telegram.WebApp;
+    if(tg&&tg.initData&&typeof tg.showScanQrPopup==='function'&&typeof tg.isVersionAtLeast==='function'&&tg.isVersionAtLeast('6.4')){
+      try{
+        tg.showScanQrPopup({text:'Наведите на QR-код Samarkand_bank'},function(t){
+          if(!t||!parseQr(t))return false;
+          $('qr-text').value=t;qrCheck(t);return true;
+        });
+        return;
+      }catch(e){/* встроенный сканер не открылся, пробуем камеру напрямую */}
+    }
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){err.textContent='Камера здесь недоступна. Загрузите скриншот QR или вставьте код.';return}
+    try{cam.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false})}
+    catch(e){err.textContent=(e&&e.name==='NotAllowedError')?'Доступ к камере не разрешён. Включите его в настройках или загрузите скриншот QR.':'Не удалось включить камеру. Загрузите скриншот QR или вставьте код.';return}
+    var v=$('cam-v');v.srcObject=cam.stream;$('cam-msg').textContent='Наведите камеру на QR-код Samarkand_bank.';$('scrim6').hidden=false;
+    try{await v.play()}catch(e){}
+    cam.det=null;try{if('BarcodeDetector' in window)cam.det=new BarcodeDetector({formats:['qr_code']})}catch(e){cam.det=null}
+    var busy=false;
+    function tick(){
+      if(!cam.stream)return;
+      if(v.readyState<2||busy){cam.raf=requestAnimationFrame(tick);return}
+      busy=true;
+      scanFrame(v).then(function(t){
+        busy=false;
+        if(!cam.stream)return;
+        if(t){
+          if(parseQr(t)){stopCam();$('qr-text').value=t;qrCheck(t);return}
+          $('cam-msg').textContent='Это не QR-код Samarkand_bank.';
+        }
+        cam.raf=requestAnimationFrame(tick);
+      });
+    }
+    tick();
+  }
+
+  /* ---------- wiring ---------- */
+  document.addEventListener('click',function(e){
+    var rx=e.target.closest('[data-tx]');if(rx){openReceipt(rx.dataset.tx);return}
+    var vf=e.target.closest('[data-vf]');if(vf){toggleVerified(vf.dataset.vf);return}
+    var csb=e.target.closest('[data-cs]');if(csb){S.cardSel=csb.dataset.cs;renderHome();return}
+    if(e.target.closest('#cd-move')){openMove();return}
+    if(e.target.closest('#cd-new')){csOpen('new');return}
+    if(e.target.closest('#cd-edit')){csOpen('edit');return}
+    var csn=e.target.closest('[data-csn]');if(csn){S.csNet=csn.dataset.csn;csDraw();return}
+    var csc=e.target.closest('[data-csc]');if(csc){S.csColor=csc.dataset.csc;csDraw();return}
+    var vcb=e.target.closest('[data-vc]');if(vcb){pickColor(vcb.dataset.vc);return}
+    var tp=e.target.closest('[data-tkpick]');if(tp){pickTake(tp.dataset.tkpick);return}
+    var vp=e.target.closest('[data-vfpick]');if(vp){grantVf(vp.dataset.vfpick);return}
+    var spk=e.target.closest('[data-sp]');if(spk){openSupport(spk.dataset.sp);return}
+    var g=e.target.closest('[data-go]');if(g){go(g.dataset.go);if(g.dataset.go==='send')renderSendUI();return}
+    var au=e.target.closest('[data-auth]');if(au){S.auth=au.dataset.auth;renderAll();return}
+    var la=e.target.closest('[data-lacc]');if(la){S.lacc=la.dataset.lacc;renderAll();return}
+    var rc=e.target.closest('[data-rc]');if(rc){$('to-card').value=fmtNum(cardOf(rc.dataset.rc).number);onCardInput();return}
+    var c=e.target.closest('#chips .chip');if(c){$('amt').value=Number(c.dataset.v).toLocaleString('ru-RU');renderSendUI();return}
+    var t=e.target.closest('#c-terms .chip');if(t){S.term=Number(t.dataset.term);renderTake();return}
+    var h=e.target.closest('[data-hf]');if(h){S.hf=h.dataset.hf;document.querySelectorAll('#hf button,#hf-game').forEach(function(b){b.setAttribute('aria-pressed',String(b===h))});renderHist();return}
+    var p=e.target.closest('[data-act="pay"]');if(p){payNext();return}
+    var d=e.target.closest('[data-del]');if(d){askDelete(d.dataset.del);return}
+    var nl=e.target.closest('[data-newlv]');if(nl){S.stLv=nl.dataset.newlv;renderAdmin();return}
+    var sl=e.target.closest('[data-stlv]');if(sl){var pr=sl.dataset.stlv.split('|');setLevel(pr[0],pr[1]);return}
+    var ln=e.target.closest('[data-loan]');if(ln){var lp=ln.dataset.loan.split('|');decideLoan(lp[0],lp[1]);return}
+    var us=e.target.closest('[data-unstaff]');if(us){removeStaff(us.dataset.unstaff);return}
+    var nb=e.target.closest('[data-net]');if(nb){chooseNetwork(nb.dataset.net);return}
+    var on=e.target.closest('#o-nets .chip');if(on){S.net=on.dataset.onet;drawONets();return}
+    var cb=e.target.closest('[data-card]');if(cb){openCardEdit(cb.dataset.card);return}
+    var en=e.target.closest('#e-nets .chip');if(en){
+      S.eNet=en.dataset.enet;
+      var cur=$('e-num').value.replace(/\D/g,'');
+      if(!prefixOk(S.eNet,cur))$('e-num').value=fmtNum(genNumber(S.eNet,S.editUid));
+      drawENets();return}
+  });
+  function drawONets(){$('o-nets').innerHTML=NETS.map(function(n){return '<button type="button" class="chip" data-onet="'+n+'" aria-pressed="'+(S.net===n)+'">'+netName(n)+'</button>'}).join('')}
+  drawONets();
+  $('fx-open').addEventListener('click',openFx);
+  $('f-fx').addEventListener('submit',doFx);
+  $('x-no').addEventListener('click',function(){$('scrim5').hidden=true});
+  $('scrim5').addEventListener('click',function(e){if(e.target===$('scrim5'))$('scrim5').hidden=true});
+  $('x-side').addEventListener('click',function(e){var b=e.target.closest('[data-xside]');if(b){S.xSide=b.dataset.xside;renderFx()}});
+  $('x-cur').addEventListener('click',function(e){var b=e.target.closest('[data-xcur]');if(b){S.xCur=b.dataset.xcur;renderFx()}});
+  $('x-amt').addEventListener('input',function(){var v=$('x-amt').value.replace(/\D/g,'').slice(0,9);$('x-amt').value=v?Number(v).toLocaleString('ru-RU'):'';renderFx()});
+  $('a-rate-save').addEventListener('click',saveRates);
+  $('a-staff-add').addEventListener('click',addStaff);
+  $('f-card').addEventListener('submit',saveCard);
+  $('e-no').addEventListener('click',function(){$('scrim4').hidden=true});
+  $('e-gen').addEventListener('click',function(){$('e-num').value=fmtNum(genNumber(S.eNet,S.editUid))});
+  $('e-num').addEventListener('input',function(){$('e-num').value=fmtNum($('e-num').value.slice(0,19))});
+  $('scrim4').addEventListener('click',function(e){if(e.target===$('scrim4'))$('scrim4').hidden=true});
+  $('f-onboard').addEventListener('submit',openAccount);
+  $('f-admin').addEventListener('submit',adminLogin);
+  $('adm-no').addEventListener('click',closeAdmin);
+  $('scrim2').addEventListener('click',function(e){if(e.target===$('scrim2'))closeAdmin()});
+  document.querySelectorAll('.adm-open').forEach(function(b){b.addEventListener('click',openAdmin)});
+  $('to-card').addEventListener('input',onCardInput);
+  $('f-login').addEventListener('submit',doLogin);
+  $('logout').addEventListener('click',function(){saveActive(null);S.auth='login';renderAll()});
+  $('qr-make').addEventListener('click',makeQr);
+  $('qr-cam').addEventListener('click',startCam);
+  $('cam-no').addEventListener('click',stopCam);
+  $('qr-copy').addEventListener('click',function(){copy($('qr-code').textContent,'Код скопирован')});
+  $('qr-amt').addEventListener('input',function(){var v=$('qr-amt').value.replace(/\D/g,'').slice(0,9);$('qr-amt').value=v?Number(v).toLocaleString('ru-RU'):''});
+  $('qr-file').addEventListener('change',function(){scanFile($('qr-file').files&&$('qr-file').files[0])});
+  $('qr-text').addEventListener('input',function(){var v=$('qr-text').value.trim();if(v.length>8)qrCheck(v);else{S.qrPay=null;$('qr-res').hidden=true;$('qr-pay-err').textContent=''}});
+  $('qr-pay-amt').addEventListener('input',function(){var v=$('qr-pay-amt').value.replace(/\D/g,'').slice(0,9);$('qr-pay-amt').value=v?Number(v).toLocaleString('ru-RU'):'';qrPayState()});
+  $('qr-pay-go').addEventListener('click',function(){
+    if(!S.qrPay)return;
+    var a=S.qrPay.amount||parseInt($('qr-pay-amt').value.replace(/\D/g,''),10)||0;
+    if(a<1)return;
+    confirmSend({to:S.qrPay.to,amount:a,note:'Оплата по QR',qr:S.qrPay.nonce});
+  });
+  $('hq').addEventListener('input',renderHist);
+  $('amt').addEventListener('input',function(){var v=$('amt').value.replace(/\D/g,'').slice(0,12);$('amt').value=v?Number(v).toLocaleString('ru-RU'):'';renderSendUI()});
+  $('c-amt').addEventListener('input',function(){var v=$('c-amt').value.replace(/\D/g,'').slice(0,6);$('c-amt').value=v?Number(v).toLocaleString('ru-RU'):'';renderTake()});
+  $('c-go').addEventListener('click',takeLoan);
+  $('send-go').addEventListener('click',openSheet);
+  $('sh-no').addEventListener('click',closeSheet);
+  $('sh-ok').addEventListener('click',doSend);
+  $('dl-no').addEventListener('click',function(){$('scrim3').hidden=true});
+  $('dl-ok').addEventListener('click',doDelete);
+  $('rc-del').addEventListener('click',hideTx);
+  $('sp-form').addEventListener('submit',sendSupport);
+  $('d-nums').addEventListener('click',function(e){var c=e.target.closest('[data-dn]');if(!c||c.disabled)return;S.dPick=Number(c.dataset.dn);renderDice()});
+  $('d-bets').addEventListener('click',function(e){var c=e.target.closest('[data-dbet]');if(!c||c.disabled)return;S.dBet=Number(c.dataset.dbet);$('d-bet').value=String(S.dBet);renderDice()});
+  $('d-bet').addEventListener('input',function(){var v=parseInt($('d-bet').value.replace(/\D/g,''),10)||0;if(v>D_MAX)v=D_MAX;S.dBet=v;$('d-bet').value=v?String(v):'';$('d-win').textContent='+'+money(v*D_MULT);$('d-lose').textContent='−'+money(v);$('d-bets').querySelectorAll('[data-dbet]').forEach(function(x){x.setAttribute('aria-pressed',String(Number(x.dataset.dbet)===v))})});
+  $('d-go').addEventListener('click',dRoll);
+  $('s-go').addEventListener('click',sRoll);
+  $('cr-go').addEventListener('click',crStart);
+  $('cr-out').addEventListener('click',crOut);
+  $('cr-bets').addEventListener('click',function(e){var c=e.target.closest('[data-cbet]');if(!c||c.disabled)return;S.cBet=Number(c.dataset.cbet);$('cr-bet').value=String(S.cBet);renderCrash()});
+  $('cr-bet').addEventListener('input',function(){var v=parseInt($('cr-bet').value.replace(/\D/g,''),10)||0;if(v>C_MAX)v=C_MAX;S.cBet=v;$('cr-bet').value=v?String(v):'';renderCrash()});
+  $('s-bets').addEventListener('click',function(e){var c=e.target.closest('[data-sbet]');if(!c||c.disabled)return;S.sBet=Number(c.dataset.sbet);$('s-bet').value=String(S.sBet);renderSlots()});
+  $('s-bet').addEventListener('input',function(){var v=parseInt($('s-bet').value.replace(/\D/g,''),10)||0;if(v>S_MAX)v=S_MAX;S.sBet=v;$('s-bet').value=v?String(v):'';renderSlots()});
+  $('mv-go').addEventListener('click',doMove);
+  $('mv-no').addEventListener('click',function(){$('scrim12').hidden=true});
+  $('scrim12').addEventListener('click',function(e){if(e.target===$('scrim12'))$('scrim12').hidden=true});
+  $('theme-btn').addEventListener('click',themeCycle);themeApply(themeGet());
+  $('cs-save').addEventListener('click',csSave);
+  $('cs-del').addEventListener('click',csDelete);
+  $('cs-no').addEventListener('click',function(){$('scrim11').hidden=true});
+  $('cs-reset').addEventListener('click',function(){S.csColor=null;csDraw()});
+  $('cs-color').addEventListener('input',function(){S.csColor=$('cs-color').value;csDraw()});
+  $('scrim11').addEventListener('click',function(e){if(e.target===$('scrim11'))$('scrim11').hidden=true});
+  $('tk-open').addEventListener('click',openTake);
+  $('tk-q').addEventListener('input',drawTake);
+  $('tk-no').addEventListener('click',function(){$('scrim10').hidden=true});
+  $('tk-back').addEventListener('click',function(){tkShow('tk-pick');drawTake()});
+  $('tk-ok').addEventListener('click',function(){$('scrim10').hidden=true});
+  $('tk-form').addEventListener('submit',doTake);
+  $('scrim10').addEventListener('click',function(e){if(e.target===$('scrim10'))$('scrim10').hidden=true});
+  $('sp-back').addEventListener('click',function(){S.spTarget=null;spLen=-1;drawChat(true)});
+  $('vf-open').addEventListener('click',openVf);
+  $('vf-q').addEventListener('input',drawVf);
+  $('vf-no').addEventListener('click',function(){$('scrim9').hidden=true});
+  $('vf-ok').addEventListener('click',function(){$('scrim9').hidden=true});
+  $('scrim9').addEventListener('click',function(e){if(e.target===$('scrim9'))$('scrim9').hidden=true});
+  $('rc-no').addEventListener('click',function(){$('scrim8').hidden=true});
+  $('scrim8').addEventListener('click',function(e){if(e.target===$('scrim8'))$('scrim8').hidden=true});
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.matches&&e.target.matches('[data-tx]')){e.preventDefault();openReceipt(e.target.dataset.tx)}});
+  $('g-start').addEventListener('click',gStart);
+  $('g-bet').addEventListener('input',function(){
+    var v=parseInt($('g-bet').value.replace(/\D/g,''),10)||0;
+    if(v>100000)v=100000;
+    S.gBet=v;$('g-bet').value=v?String(v):'';
+    var b=S.gBombs,per=gPer(b);$('g-per').textContent='+'+money(per);$('g-stake').textContent='−'+money(per);
+    $('g-bets').querySelectorAll('[data-gbet]').forEach(function(x){x.setAttribute('aria-pressed',String(Number(x.dataset.gbet)===v))});
+  });
+  $('g-bets').addEventListener('click',function(e){var c=e.target.closest('[data-gbet]');if(!c||c.disabled)return;S.gBet=Number(c.dataset.gbet);$('g-bet').value=String(S.gBet);renderGameSetup()});
+  $('g-cash').addEventListener('click',gCash);
+  $('hist-clear').addEventListener('click',clearHistory);
+  $('g-bombs').addEventListener('click',function(e){var b=e.target.closest('[data-gb]');if(b&&!(S.g&&!S.g.over)){S.gBombs=Number(b.dataset.gb);renderGameSetup()}});
+  $('g-grid').addEventListener('click',function(e){var c=e.target.closest('[data-gc]');if(c)gOpen(Number(c.dataset.gc))});
+  $('self-del').addEventListener('click',function(){if(S.uid)askDelete(S.uid,true)});
+  $('scrim').addEventListener('click',function(e){if(e.target===$('scrim'))closeSheet()});
+  $('scrim3').addEventListener('click',function(e){if(e.target===$('scrim3'))$('scrim3').hidden=true});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeSheet();closeAdmin();$('scrim3').hidden=true;$('scrim4').hidden=true;$('scrim5').hidden=true;stopCam()}});
+  $('d-ok').addEventListener('click',function(){go('home')});
+  $('cardnum').addEventListener('click',function(){copy(selCard().num,'Номер карты скопирован')});
+  $('copy-nick').addEventListener('click',function(){var n=nickOf(S.uid);copy(n,'Ник «'+n+'» скопирован. Отправьте его другу.')});
+  $('chips').innerHTML=[50,100,500,1000].map(function(v){return '<button type="button" class="chip" data-v="'+v+'">'+v.toLocaleString('ru-RU')+'</button>'}).join('');
+  $('c-terms').innerHTML=TERMS.map(function(d){return '<button type="button" class="chip" data-term="'+d+'" aria-pressed="'+(d===S.term)+'">'+termLabel(d)+'</button>'}).join('');
+
+  /* ---------- start ---------- */
+  go('home');
+  var bootT=setTimeout(function(){if(!allLoaded())$('boot-msg').textContent='Хранилище отвечает долго. Проверьте интернет, страница подключится сама.'},10000);
+  setInterval(function(){if(allLoaded()&&S.uid)renderAll()},30000);
+
+  (async function start(){
+    var db=null,user=null;
+    try{db=await window.claude.use('db');user=await window.claude.use('user')}catch(e){}
+    if(!db||!user){clearTimeout(bootT);show('v-locked');return}
+    var uid=await user.id();
+    if(!uid){clearTimeout(bootT);show('v-locked');return}
+    S.db=db;S.viewer=uid;
+    var fail=function(){clearTimeout(bootT);show('v-locked')};
+    function mapOf(snap){var m={};snap.docs.forEach(function(d){m[d.id]=d.data()});return m}
+
+    db.collection('accounts').onSnapshot(function(snap){S.rawAcc=mapOf(snap);S.gotA=true;refresh()},fail);
+    db.collection('credits').onSnapshot(function(snap){S.rawCred=mapOf(snap);S.gotC=true;refresh()},fail);
+    db.collection('support').onSnapshot(function(snap){S.rawSup=mapOf(snap);refresh()},function(){});
+    db.collection('fx').onSnapshot(function(snap){S.rawFx=mapOf(snap);S.gotX=true;refresh()},fail);
+    db.collection('rates').onSnapshot(function(snap){var m=mapOf(snap);S.rates=m.current||null;S.gotR=true;refresh()},fail);
+    db.collection('bans').onSnapshot(function(snap){S.bans=mapOf(snap);S.gotB=true;refresh()},fail);
+    db.collection('ledger').onSnapshot(function(snap){S.rawLed=mapOf(snap);S.gotL=true;refresh()},fail);
+  })();
+})();
+</script>
+<div id="scrim7" class="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cfg-t" style="max-height:92vh;overflow:auto">
+    <h2 id="cfg-t">Настройки</h2>
+    <h3>Облачное хранилище</h3>
+    <p class="hint" id="cfg-mode"></p>
+    <label class="f" for="cfg-url">Адрес Firebase Realtime Database
+      <input id="cfg-url" class="inp" placeholder="https://имя-default-rtdb.firebasedatabase.app" autocomplete="off" autocapitalize="none" spellcheck="false">
+    </label>
+    <p class="hint">Без адреса данные лежат только на этом устройстве. Чтобы друзья видели друг друга, введите один и тот же адрес на всех устройствах. Данные из локального режима в облако не переносятся.</p>
+    <button id="cfg-save" class="btn primary block" type="button">Сохранить адрес</button>
+    <h3>Сохранить аккаунт</h3>
+    <button id="cfg-export" class="btn ghost block" type="button">Скачать файл аккаунта</button>
+    <label class="f" for="cfg-import">Восстановить из файла
+      <input id="cfg-import" class="inp" type="file" accept="application/json,.json">
+    </label>
+    <p class="hint">В файле ваш ключ профиля и, в локальном режиме, все данные банка. Через него можно войти в ваши аккаунты, поэтому храните его как пароль.</p>
+    <p id="cfg-err" class="err" role="alert"></p>
+    <button id="cfg-no" class="btn ghost block" type="button">Закрыть</button>
+  </div>
+</div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+  var env=window.SMB_ENV||{cloud:'',viewer:''};
+  function open(){
+    $('cfg-url').value=env.cloud||'';
+    $('cfg-err').textContent='';
+    $('cfg-mode').textContent=(env.inTelegram?'Вход привязан к вашему Telegram-аккаунту. ':'')+(env.cloud?'Сейчас данные хранятся в облаке, все устройства с этим адресом видят одно и то же.':'Сейчас данные хранятся только на этом устройстве, друзья их не видят.');
+    $('scrim7').hidden=false;
+  }
+  function close(){$('scrim7').hidden=true}
+  document.querySelectorAll('.cfg-open').forEach(function(b){b.addEventListener('click',open)});
+  $('cfg-no').addEventListener('click',close);
+  $('scrim7').addEventListener('click',function(e){if(e.target===$('scrim7'))close()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  $('cfg-save').addEventListener('click',async function(){
+    var err=$('cfg-err'),url=$('cfg-url').value.trim().replace(/\/+$/,'');
+    err.textContent='';
+    if(!url){lsDel('smb_cloud');location.reload();return}
+    if(!/^https:\/\/[^\s/]+\.(firebaseio\.com|firebasedatabase\.app)$/i.test(url)){err.textContent='Адрес должен выглядеть так: https://имя-default-rtdb.firebasedatabase.app';return}
+    $('cfg-save').disabled=true;
+    try{
+      var r=await fetch(url+'/smb/rates.json',{cache:'no-store'});
+      if(!r.ok){err.textContent=(r.status===401||r.status===403)?'База закрыта правилами. Откройте чтение и запись в разделе Rules.':'База не отвечает, проверьте адрес.';return}
+      lsSet('smb_cloud',url);location.reload();
+    }catch(e){err.textContent='Нет связи с базой. Проверьте интернет и адрес.'}
+    finally{$('cfg-save').disabled=false}
+  });
+
+  $('cfg-export').addEventListener('click',function(){
+    var data={app:'samarkand_bank',v:1,savedAt:Date.now(),viewer:env.viewer,active:lsGet('smb_acc'),cloud:lsGet('smb_cloud')||'',store:env.cloud?null:lsGet('smb_store')};
+    try{
+      var blob=new Blob([JSON.stringify(data)],{type:'application/json'}),a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);a.download='samarkand-bank-account.json';
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
+      $('cfg-err').textContent='';
+    }catch(e){$('cfg-err').textContent='Браузер не дал сохранить файл.'}
+  });
+
+  $('cfg-import').addEventListener('change',function(){
+    var f=$('cfg-import').files&&$('cfg-import').files[0],err=$('cfg-err');
+    if(!f)return;
+    if(env.inTelegram){err.textContent='В Telegram вход привязан к вашему аккаунту Telegram, файл не нужен.';return}
+    var rd=new FileReader();
+    rd.onload=function(){
+      try{
+        var d=JSON.parse(String(rd.result));
+        if(!d||d.app!=='samarkand_bank'||typeof d.viewer!=='string'||!/^u_[a-z0-9]{10,40}$/.test(d.viewer))throw new Error('bad');
+        lsSet('smb_viewer',d.viewer);
+        if(d.active)lsSet('smb_acc',d.active);else lsDel('smb_acc');
+        if(d.cloud)lsSet('smb_cloud',d.cloud);else lsDel('smb_cloud');
+        if(typeof d.store==='string')lsSet('smb_store',d.store);
+        location.reload();
+      }catch(e){err.textContent='Это не файл аккаунта Samarkand_bank.'}
+    };
+    rd.onerror=function(){err.textContent='Не удалось прочитать файл.'};
+    rd.readAsText(f);
+  });
+})();
+</script>
+</body>
+</html>
